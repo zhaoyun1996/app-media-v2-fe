@@ -90,7 +90,7 @@
 
             <div
                 class="playlist"
-                :style="lyric ? 'margin-top: 502px' : 'margin-top: 486px'"
+                :style="lyric ? 'margin-top: 516px' : 'margin-top: 492px'"
             >
                 <div
                     v-for="(item, index) in songs"
