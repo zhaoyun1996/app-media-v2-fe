@@ -28,7 +28,7 @@ export default {
 * {
     padding: 0;
     margin: 0;
-    box-sizing: inherit;
+    box-sizing: inherit !important;
 }
 
 #app {
