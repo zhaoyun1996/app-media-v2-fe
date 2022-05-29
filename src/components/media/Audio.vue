@@ -52,6 +52,9 @@
                     >
                         <i class="fas fa-pause icon-pause"></i>
                     </div>
+                    <div class="btn btn-toggle-play" v-else-if="isLoading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
                     <div class="btn btn-toggle-play" v-else @click="play">
                         <i class="fas fa-play icon-play"></i>
                     </div>
@@ -68,17 +71,20 @@
                 </div>
 
                 <div class="time-progress">
-                    <div>{{ currentTime }}</div>
-                    <input
-                        id="progress"
-                        class="progress"
-                        type="range"
-                        value="0"
-                        step="1"
-                        min="0"
-                        max="100"
-                    />
-                    <div>{{ totalTime }}</div>
+                    <div class="current-time">{{ currentTime }}</div>
+                    <div class="progress" @click="progressChange($event)">
+                        <div class="progress-temp"></div>
+                        <input
+                            v-show="false"
+                            id="progress"
+                            type="range"
+                            value="0"
+                            step="1"
+                            min="0"
+                            max="100"
+                        />
+                    </div>
+                    <div class="total-time">{{ totalTime }}</div>
                 </div>
 
                 <div class="lyric" v-html="lyric"></div>
@@ -144,7 +150,7 @@ export default {
     data() {
         window.audio = this;
         return {
-            searchValue: "",
+            searchValue: "lạ lùng",
             songs: [],
             idSongActived: "",
             title: "",
@@ -165,6 +171,7 @@ export default {
             word: "",
             rowLyric: -1,
             singer: null,
+            isLoading: false,
         };
     },
 
@@ -490,21 +497,25 @@ export default {
             // When the song progress changes
             me.audioControl.ontimeupdate = () => {
                 if (me.audioControl.duration) {
-                    const progressPercent = Math.floor(
+                    const progressPercent = (
                         (me.audioControl.currentTime /
                             me.audioControl.duration) *
-                            100
-                    );
+                        100
+                    ).toFixed(2);
                     progress.value = progressPercent;
-                }
-            };
 
-            // Xử lý khi tua song
-            // Handling when seek
-            progress.onchange = function (e) {
-                const seekTime =
-                    (me.audioControl.duration / 100) * e.target.value;
-                me.audioControl.currentTime = seekTime;
+                    // Lấy width của thanh progress thật
+                    let widthProgress = document
+                        .getElementsByClassName("progress")[0]
+                        .getBoundingClientRect().width;
+
+                    // Tính toán lại width của thanh progress tạm thời
+                    document.getElementsByClassName(
+                        "progress-temp"
+                    )[0].style.width = `${
+                        (widthProgress * progressPercent) / 100
+                    }px`;
+                }
             };
         },
 
@@ -513,6 +524,8 @@ export default {
          */
         async selectSong(e) {
             const me = this;
+
+            me.mask();
 
             // Nếu là người dùng tự chọn bài
             if (e) {
@@ -535,6 +548,8 @@ export default {
             me.scrollToActiveSong();
 
             me.play();
+
+            me.unmask();
         },
 
         /**
@@ -543,21 +558,25 @@ export default {
         nextSong() {
             const me = this;
 
-            var indexSong = me.songs.findIndex(
-                (item) => item.encodeId == me.idSongActived
-            );
+            if (!me.isLoading) {
+                var indexSong = me.songs.findIndex(
+                    (item) => item.encodeId == me.idSongActived
+                );
 
-            if (indexSong > -1) {
-                var indexSongNew =
-                    indexSong + 1 == me.songs.length ? 0 : indexSong + 1;
+                if (indexSong > -1) {
+                    var indexSongNew =
+                        indexSong + 1 == me.songs.length ? 0 : indexSong + 1;
 
-                me.idSongActived = me.songs[indexSongNew].encodeId;
-                me.title = me.songs[indexSongNew].title;
-                me.thumbnailM = me.songs[indexSongNew].thumbnailM;
-                me.totalTime = me.convertTime(me.songs[indexSongNew].duration);
+                    me.idSongActived = me.songs[indexSongNew].encodeId;
+                    me.title = me.songs[indexSongNew].title;
+                    me.thumbnailM = me.songs[indexSongNew].thumbnailM;
+                    me.totalTime = me.convertTime(
+                        me.songs[indexSongNew].duration
+                    );
+                }
+
+                me.selectSong();
             }
-
-            me.selectSong();
         },
 
         /**
@@ -566,21 +585,25 @@ export default {
         prevSong() {
             const me = this;
 
-            var indexSong = me.songs.findIndex(
-                (item) => item.encodeId == me.idSongActived
-            );
+            if (!me.isLoading) {
+                var indexSong = me.songs.findIndex(
+                    (item) => item.encodeId == me.idSongActived
+                );
 
-            if (indexSong > -1) {
-                var indexSongNew =
-                    indexSong - 1 < 0 ? me.songs.length - 1 : indexSong - 1;
+                if (indexSong > -1) {
+                    var indexSongNew =
+                        indexSong - 1 < 0 ? me.songs.length - 1 : indexSong - 1;
 
-                me.idSongActived = me.songs[indexSongNew].encodeId;
-                me.title = me.songs[indexSongNew].title;
-                me.thumbnailM = me.songs[indexSongNew].thumbnailM;
-                me.totalTime = me.convertTime(me.songs[indexSongNew].duration);
+                    me.idSongActived = me.songs[indexSongNew].encodeId;
+                    me.title = me.songs[indexSongNew].title;
+                    me.thumbnailM = me.songs[indexSongNew].thumbnailM;
+                    me.totalTime = me.convertTime(
+                        me.songs[indexSongNew].duration
+                    );
+                }
+
+                me.selectSong();
             }
-
-            me.selectSong();
         },
 
         /**
@@ -658,8 +681,10 @@ export default {
         repeat() {
             const me = this;
 
-            me.isRepeat = !me.isRepeat;
-            me.isRandom = false;
+            if (!me.isLoading) {
+                me.isRandom = false;
+                me.isRepeat = !me.isRepeat;
+            }
         },
 
         /**
@@ -668,8 +693,10 @@ export default {
         random() {
             const me = this;
 
-            me.isRandom = !me.isRandom;
-            me.isRepeat = false;
+            if (!me.isLoading) {
+                me.isRandom = !me.isRandom;
+                me.isRepeat = false;
+            }
         },
 
         /**
@@ -785,6 +812,50 @@ export default {
                     block: "center",
                 });
             }
+        },
+
+        /**
+         * Sự kiện khi tua bài hát
+         */
+        progressChange(event) {
+            const me = this;
+
+            // Nếu có bài hát thì mới cho tua
+            if (!Number.isNaN(me.audioControl.duration)) {
+                let widthProgressTemp =
+                        event.pageX - event.target.getBoundingClientRect().x,
+                    widthProgress = event.target.getBoundingClientRect().width;
+
+                // Tính toán lại width của thanh progress tạm thời
+                document.getElementsByClassName(
+                    "progress-temp"
+                )[0].style.width = `${widthProgressTemp}px`;
+
+                // Thay đổi tiến độ thực của bài hát
+                me.audioControl.currentTime =
+                    (me.audioControl.duration / widthProgress) *
+                    widthProgressTemp;
+            }
+        },
+
+        /**
+         * Hiển thị loading
+         */
+        mask() {
+            const me = this;
+
+            me.isPlay = false;
+            me.isLoading = true;
+        },
+
+        /**
+         * Ẩn loading
+         */
+        unmask() {
+            const me = this;
+
+            me.isPlay = true;
+            me.isLoading = false;
         },
     },
 
@@ -936,12 +1007,11 @@ export default {
 
 .time-progress {
     display: flex;
-    font-size: 13px;
+    font-size: 14px;
     align-items: center;
 }
 
 .progress {
-    margin: 0 5px;
     width: 100%;
     -webkit-appearance: none;
     height: 6px;
@@ -959,6 +1029,22 @@ export default {
     height: 6px;
     background-color: #ec1f55;
     cursor: pointer;
+}
+
+.current-time {
+    margin-right: 5px;
+    line-height: 100%;
+}
+
+.total-time {
+    margin-left: 5px;
+    line-height: 100%;
+}
+
+.progress-temp {
+    width: 0px;
+    height: 100%;
+    background-color: pink;
 }
 
 /* PLAYLIST */
