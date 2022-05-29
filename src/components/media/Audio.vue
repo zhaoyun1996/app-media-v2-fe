@@ -150,7 +150,7 @@ export default {
     data() {
         window.audio = this;
         return {
-            searchValue: "lạ lùng",
+            searchValue: "",
             songs: [],
             idSongActived: "",
             title: "",
