@@ -1,4 +1,4 @@
-import logo from "@/assets/images/logo.svg";
+import logo from "@/assets/images/logo.png";
 import home from "@/assets/images/home.svg";
 import homeActive from "@/assets/images/home-active.svg";
 import watch from "@/assets/images/watch.svg";
