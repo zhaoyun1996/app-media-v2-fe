@@ -64,6 +64,7 @@
     </div>
 </template>
 <script>
+import images from "@/assets/images";
 export default {
     name: "Header",
 
@@ -72,23 +73,23 @@ export default {
             categoryItems: [
                 {
                     name: "home",
-                    src: "/src/assets/images/home.svg",
-                    srcActive: "/src/assets/images/home-active.svg",
+                    src: images.home,
+                    srcActive: images.homeActive,
                 },
                 {
                     name: "watch",
-                    src: "/src/assets/images/watch.svg",
-                    srcActive: "/src/assets/images/watch-active.svg",
+                    src: images.watch,
+                    srcActive: images.watchActive,
                 },
                 {
                     name: "market-place",
-                    src: "/src/assets/images/market-place.svg",
-                    srcActive: "/src/assets/images/market-place-active.svg",
+                    src: images.marketPlace,
+                    srcActive: images.marketPlaceActive,
                 },
                 {
                     name: "group",
-                    src: "/src/assets/images/group.svg",
-                    srcActive: "/src/assets/images/group-active.svg",
+                    src: images.group,
+                    srcActive: images.groupActive,
                 },
             ],
 
