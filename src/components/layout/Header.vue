@@ -1,54 +1,61 @@
 <template lang="">
     <div id="header">
         <div class="left-header">
-            <img src="@/assets/images/logo.png" />
+            <img class="logo" :src="srcLogo" />
             <label class="group-search">
                 <span class="icon-search">
-                    <FontAwesomeIcon :icon="['fas', 'magnifying-glass']" />
+                    <img :src="srcSearch" />
                 </span>
                 <input class="input-search" placeholder="Tìm kiếm bài hát" />
             </label>
         </div>
         <div class="center-header">
             <div class="category">
-                <div
-                    :class="[
-                        'category-item',
-                        `category-item-${categoryItem.name}`,
-                    ]"
+                <router-link
+                    :to="{ path: `${categoryItem.path}` }"
                     v-for="categoryItem in categoryItems"
-                    @click="changeCategory(categoryItem.name)"
+                    :key="categoryItem.name"
                 >
                     <div
                         :class="[
-                            'category-item-line',
-                            { active: categoryItem.name == categoryItemActive },
+                            'category-item',
+                            `category-item-${categoryItem.name}`,
                         ]"
-                    ></div>
-                    <span>
-                        <img
-                            :src="
-                                categoryItem.name == categoryItemActive
-                                    ? categoryItem.srcActive
-                                    : categoryItem.src
-                            "
-                        />
-                    </span>
-                    <div
-                        :class="[
-                            {
-                                'category-item-background':
-                                    categoryItem.name != categoryItemActive,
-                            },
-                        ]"
-                    ></div>
-                </div>
+                        @click="changeCategory(categoryItem.name)"
+                    >
+                        <div
+                            :class="[
+                                'category-item-line',
+                                {
+                                    active:
+                                        categoryItem.name == categoryItemActive,
+                                },
+                            ]"
+                        ></div>
+                        <span>
+                            <img
+                                :src="
+                                    categoryItem.name == categoryItemActive
+                                        ? categoryItem.srcActive
+                                        : categoryItem.src
+                                "
+                            />
+                        </span>
+                        <div
+                            :class="[
+                                {
+                                    'category-item-background':
+                                        categoryItem.name != categoryItemActive,
+                                },
+                            ]"
+                        ></div>
+                    </div>
+                </router-link>
             </div>
         </div>
         <div class="right-header">
             <div class="action-extend">
                 <div class="user">
-                    <!-- <img /> -->
                     <div class="avatar"></div>
                     <span class="user-name">Vũ Văn</span>
                     <div class="user-background"></div>
@@ -56,8 +63,6 @@
                 <div class="menu">
                     <img src="@/assets/images/caret-down.svg" />
                     <div class="menu-background"></div>
-                    <!-- <div class="menu-sub">
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -73,26 +78,31 @@ export default {
             categoryItems: [
                 {
                     name: "home",
+                    path: "/",
                     src: images.home,
                     srcActive: images.homeActive,
                 },
                 {
                     name: "watch",
+                    path: "/watch",
                     src: images.watch,
                     srcActive: images.watchActive,
                 },
                 {
                     name: "market-place",
+                    path: "/market-place",
                     src: images.marketPlace,
                     srcActive: images.marketPlaceActive,
                 },
                 {
                     name: "group",
+                    path: "/group",
                     src: images.group,
                     srcActive: images.groupActive,
                 },
             ],
-
+            srcSearch: images.search,
+            srcLogo: images.logo,
             categoryItemActive: "home",
         };
     },
@@ -102,6 +112,9 @@ export default {
             const me = this;
 
             me.categoryItemActive = type;
+
+            // me.$router.push({ path: `${type == "home" ? " " : type}` });
+            // me.$router.push({ name: `Home` });
         },
     },
 
@@ -127,7 +140,7 @@ export default {
     margin: 0 16px;
 }
 
-.left-header img {
+.left-header .logo {
     height: 80%;
     cursor: pointer;
 }
@@ -144,6 +157,13 @@ export default {
 
 .left-header .icon-search {
     padding-left: 12px;
+    width: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.left-header .icon-search img {
+    position: absolute;
 }
 
 .left-header .input-search {
@@ -167,7 +187,6 @@ export default {
 
 .category-item {
     height: 100%;
-    width: 13%;
     display: flex;
     align-items: center;
     padding: 0 50px;
@@ -214,6 +233,7 @@ export default {
     height: 100%;
     display: flex;
     align-items: center;
+    padding-right: 16px;
 }
 
 .user {

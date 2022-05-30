@@ -18,8 +18,6 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 /* add icons to the library */
 library.add(fas, far, fab);
 
-console.log(fas, far);
-
 const app = createApp(App);
 
 /* add font awesome icon component */
