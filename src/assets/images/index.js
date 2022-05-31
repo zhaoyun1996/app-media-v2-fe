@@ -8,6 +8,9 @@ import marketPlaceActive from "@/assets/images/market-place-active.svg";
 import group from "@/assets/images/group.svg";
 import groupActive from "@/assets/images/group-active.svg";
 import search from "@/assets/images/search.svg";
+import watchLeft from "@/assets/images/watch.png";
+import marketPlaceLeft from "@/assets/images/market-place.png";
+import groupLeft from "@/assets/images/group.png";
 
 const images = {
     logo: logo,
@@ -20,6 +23,9 @@ const images = {
     group: group,
     groupActive: groupActive,
     search: search,
+    watchLeft: watchLeft,
+    marketPlaceLeft: marketPlaceLeft,
+    groupLeft: groupLeft,
 };
 
 export default images;

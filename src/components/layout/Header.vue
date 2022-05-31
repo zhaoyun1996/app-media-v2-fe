@@ -55,11 +55,13 @@
         </div>
         <div class="right-header">
             <div class="action-extend">
-                <div class="user">
-                    <div class="avatar"></div>
-                    <span class="user-name">Vũ Văn</span>
-                    <div class="user-background"></div>
-                </div>
+                <router-link :to="{ path: '/profile' }">
+                    <div class="user">
+                        <div class="avatar"></div>
+                        <span class="user-name">Vũ Văn</span>
+                        <div class="user-background"></div>
+                    </div>
+                </router-link>
                 <div class="menu">
                     <img src="@/assets/images/caret-down.svg" />
                     <div class="menu-background"></div>
@@ -112,14 +114,25 @@ export default {
             const me = this;
 
             me.categoryItemActive = type;
-
-            // me.$router.push({ path: `${type == "home" ? " " : type}` });
-            // me.$router.push({ name: `Home` });
         },
     },
 
     mounted() {
         const me = this;
+    },
+
+    watch: {
+        $route(to, from) {
+            const me = this;
+
+            let categoryItem = me.categoryItems.find(
+                (item) => item.path == to.path
+            );
+
+            if (categoryItem) {
+                me.categoryItemActive = categoryItem.name;
+            }
+        },
     },
 };
 </script>

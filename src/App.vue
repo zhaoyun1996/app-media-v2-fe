@@ -21,6 +21,10 @@ export default {
         RightContent,
         Footer,
     },
+    data() {
+        window.app = this;
+        return {};
+    },
 };
 </script>
 
@@ -47,7 +51,8 @@ export default {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 50%);
+    /* -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 50%); */
+    -webkit-box-shadow: inset 0 0 6px rgb(255 255 255 / 30%);
 }
 
 ::-webkit-scrollbar-track {
