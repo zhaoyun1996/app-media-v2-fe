@@ -67,7 +67,7 @@ export default {
 #left-content {
     width: 15%;
     background-color: #18191a;
-    color: white;
+    color: #e4e6eb;
     padding-top: 16px;
     overflow-y: scroll;
 }
@@ -101,7 +101,7 @@ export default {
     display: flex;
     height: 36px;
     width: 36px;
-    background: url("https://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/b52bf5e0a914ece14f6a27286a697941.jpeg?x-expires=1654020000&x-signature=kPJEHqEOlz%2BykeFxiVGTCC6M2Vs%3D");
+    background: url("@/assets/images/avatar.jpeg");
     background-size: 36px 36px;
 }
 

@@ -275,7 +275,7 @@ export default {
     display: flex;
     height: 28px;
     width: 28px;
-    background: url("https://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/b52bf5e0a914ece14f6a27286a697941.jpeg?x-expires=1654020000&x-signature=kPJEHqEOlz%2BykeFxiVGTCC6M2Vs%3D");
+    background: url("@/assets/images/avatar.jpeg");
     background-size: 28px 28px;
 }
 
