@@ -4,7 +4,7 @@
         <LeftContent />
         <RightContent />
     </div>
-    <Footer />
+    <!-- <Footer /> -->
 </template>
 
 <script>
@@ -41,7 +41,7 @@ export default {
 }
 
 .content {
-    height: 85%;
+    height: 94%;
     display: flex;
 }
 

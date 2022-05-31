@@ -65,7 +65,7 @@ export default {
 </script>
 <style lang="css" scoped>
 #left-content {
-    width: 15%;
+    width: 18%;
     background-color: #18191a;
     color: #e4e6eb;
     padding-top: 16px;

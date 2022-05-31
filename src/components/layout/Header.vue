@@ -138,7 +138,7 @@ export default {
 </script>
 <style lang="css" scoped>
 #header {
-    height: 5%;
+    height: 6%;
     display: flex;
     background-color: #242526;
     color: #e4e6eb;
@@ -147,20 +147,21 @@ export default {
 /* LEFT HEADER */
 .left-header {
     height: 100%;
-    width: 20%;
+    width: 22%;
     display: flex;
     align-items: center;
     margin: 0 16px;
 }
 
 .left-header .logo {
-    height: 80%;
+    height: 70%;
     cursor: pointer;
 }
 
 .left-header .group-search {
     margin-left: 12px;
-    height: 80%;
+    height: 70%;
+    width: 100%;
     position: relative;
     background-color: #3a3b3c;
     border-radius: 50px;
@@ -180,15 +181,16 @@ export default {
 }
 
 .left-header .input-search {
+    width: 100%;
     border-radius: 50px;
-    padding: 7px 8px;
+    padding: 7px 15px 7px 10px;
     outline: none;
     background-color: transparent;
 }
 
 /* CENTER-HEADER */
 .center-header {
-    width: 60%;
+    width: 54%;
 }
 
 .category {
@@ -236,7 +238,7 @@ export default {
 
 /* RIGHT-HEADER */
 .right-header {
-    width: 20%;
+    width: 22%;
     position: relative;
 }
 

@@ -19,7 +19,7 @@ export default {
 </script>
 <style lang="css" scoped>
 #right-content {
-    width: 85%;
+    width: 82%;
     background-color: #18191a;
     color: #e4e6eb;
     overflow: auto;
