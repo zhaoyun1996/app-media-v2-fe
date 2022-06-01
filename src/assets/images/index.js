@@ -11,6 +11,9 @@ import search from "@/assets/images/search.svg";
 import watchLeft from "@/assets/images/watch.png";
 import marketPlaceLeft from "@/assets/images/market-place.png";
 import groupLeft from "@/assets/images/group.png";
+import caretDown from "@/assets/images/caret-down.svg";
+import caretDownActive from "@/assets/images/caret-down-active.svg";
+import back from "@/assets/images/back.svg";
 
 const images = {
     logo: logo,
@@ -26,6 +29,9 @@ const images = {
     watchLeft: watchLeft,
     marketPlaceLeft: marketPlaceLeft,
     groupLeft: groupLeft,
+    caretDown: caretDown,
+    caretDownActive: caretDownActive,
+    back: back,
 };
 
 export default images;

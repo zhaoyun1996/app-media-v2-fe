@@ -1,12 +1,23 @@
 <template lang="">
     <div id="header">
         <div class="left-header">
-            <img class="logo" :src="srcLogo" />
+            <div class="back" v-if="isFocusInputSearch">
+                <div class="img-back">
+                    <img :src="srcBack" />
+                    <div class="back-background"></div>
+                </div>
+            </div>
+            <img class="logo" :src="srcLogo" v-else />
             <label class="group-search">
                 <span class="icon-search">
                     <img :src="srcSearch" />
                 </span>
-                <input class="input-search" placeholder="Tìm kiếm bài hát" />
+                <input
+                    class="input-search"
+                    placeholder="Tìm kiếm bài hát"
+                    @focus="isFocusInputSearch = !isFocusInputSearch"
+                    @blur="isFocusInputSearch = !isFocusInputSearch"
+                />
             </label>
         </div>
         <div class="center-header">
@@ -63,7 +74,7 @@
                     </div>
                 </router-link>
                 <div class="menu">
-                    <img src="@/assets/images/caret-down.svg" />
+                    <img :src="srcCaretDown" />
                     <div class="menu-background"></div>
                 </div>
             </div>
@@ -105,7 +116,10 @@ export default {
             ],
             srcSearch: images.search,
             srcLogo: images.logo,
+            srcCaretDown: images.caretDown,
+            srcBack: images.back,
             categoryItemActive: "home",
+            isFocusInputSearch: false,
         };
     },
 
@@ -147,7 +161,7 @@ export default {
 /* LEFT HEADER */
 .left-header {
     height: 100%;
-    width: 22%;
+    width: 18%;
     display: flex;
     align-items: center;
     margin: 0 16px;
@@ -158,10 +172,33 @@ export default {
     cursor: pointer;
 }
 
+.left-header .back .img-back {
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    justify-content: center;
+}
+
+.left-header .back img {
+    height: 20px;
+}
+
+.back:hover .back-background {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    height: 36px;
+    left: 0;
+    width: 100%;
+}
+
 .left-header .group-search {
     margin-left: 12px;
     height: 70%;
-    width: 100%;
+    width: -webkit-fill-available;
     position: relative;
     background-color: #3a3b3c;
     border-radius: 50px;
@@ -190,7 +227,7 @@ export default {
 
 /* CENTER-HEADER */
 .center-header {
-    width: 54%;
+    width: 64%;
 }
 
 .category {
@@ -238,7 +275,7 @@ export default {
 
 /* RIGHT-HEADER */
 .right-header {
-    width: 22%;
+    width: 18%;
     position: relative;
 }
 
