@@ -14,6 +14,7 @@ import groupLeft from "@/assets/images/group.png";
 import caretDown from "@/assets/images/caret-down.svg";
 import caretDownActive from "@/assets/images/caret-down-active.svg";
 import back from "@/assets/images/back.svg";
+import arrow from "@/assets/images/arrow.svg";
 
 const images = {
     logo: logo,
@@ -32,6 +33,7 @@ const images = {
     caretDown: caretDown,
     caretDownActive: caretDownActive,
     back: back,
+    arrow: arrow,
 };
 
 export default images;

@@ -118,12 +118,17 @@ export default {
             srcLogo: images.logo,
             srcCaretDown: images.caretDown,
             srcBack: images.back,
+            srcDown: images.down,
+            srcUp: images.up,
             categoryItemActive: "home",
             isFocusInputSearch: false,
         };
     },
 
     methods: {
+        /**
+         * Sự kiện thay đổi danh mục
+         */
         changeCategory(type) {
             const me = this;
 
@@ -131,11 +136,10 @@ export default {
         },
     },
 
-    mounted() {
-        const me = this;
-    },
-
     watch: {
+        /**
+         * Bắt sự kiện thay đổi router
+         */
         $route(to, from) {
             const me = this;
 
