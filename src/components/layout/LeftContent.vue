@@ -1,100 +1,107 @@
 <template lang="">
     <div id="left-content">
-        <div class="user-content">
-            <router-link :to="{ path: '/profile' }">
-                <div class="left-content-item">
-                    <div class="user content-item">
-                        <div class="avatar"></div>
-                        <span class="user-name">Vũ Văn</span>
+        <div class="body-content">
+            <div class="user-content">
+                <router-link :to="{ path: '/profile' }">
+                    <div class="left-content-item">
+                        <div class="user content-item">
+                            <div class="avatar"></div>
+                            <span class="user-name">Vũ Văn</span>
+                            <div class="content-item-background"></div>
+                        </div>
+                    </div>
+                </router-link>
+            </div>
+            <div class="category-content">
+                <router-link
+                    :to="{ path: `${leftItem.path}` }"
+                    v-for="leftItem in leftItems"
+                    :key="leftItem.name"
+                >
+                    <div class="left-content-item">
+                        <div :class="[leftItem.name, 'content-item']">
+                            <img class="icon" :src="leftItem.src" />
+                            <span class="title">{{ leftItem.title }}</span>
+                            <div class="content-item-background"></div>
+                        </div>
+                    </div>
+                </router-link>
+            </div>
+            <div class="arrow-category-content">
+                <div class="left-content-item" @click="viewMoreCategory">
+                    <div class="arrow content-item">
+                        <div class="img-arrow icon">
+                            <img
+                                :src="srcArrow"
+                                :style="{
+                                    transform: isViewMoreCategory
+                                        ? 'rotate(180deg)'
+                                        : 'rotate(0deg)',
+                                }"
+                            />
+                        </div>
+                        <span class="title">{{
+                            isViewMoreCategory ? "Ẩn bớt" : "Xem thêm"
+                        }}</span>
                         <div class="content-item-background"></div>
                     </div>
                 </div>
-            </router-link>
-        </div>
-        <div class="category-content">
-            <router-link
-                :to="{ path: `${leftItem.path}` }"
-                v-for="leftItem in leftItems"
-                :key="leftItem.name"
+            </div>
+            <div class="line"></div>
+            <div
+                @mouseover="changeHoverShortCut(true)"
+                @mouseleave="changeHoverShortCut(false)"
             >
-                <div class="left-content-item">
-                    <div :class="[leftItem.name, 'content-item']">
-                        <img class="icon" :src="leftItem.src" />
-                        <span class="title">{{ leftItem.title }}</span>
+                <div class="title-shortcut title">
+                    <div class="shortcut-text">
+                        <span>Lối tắt của bạn</span>
+                    </div>
+                    <div class="shortcut-edit" v-show="isHoverShortCut">
+                        <span>Chỉnh sửa</span>
+                        <div class="shortcut-edit-background"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="shortcut-category-content">
+                <router-link
+                    :to="{ path: `${leftShortCut.path}` }"
+                    v-for="leftShortCut in leftShortCuts"
+                    :key="leftShortCut.name"
+                >
+                    <div class="left-content-item">
+                        <div :class="[leftShortCut.name, 'content-item']">
+                            <img class="icon" :src="leftShortCut.src" />
+                            <span class="title">{{ leftShortCut.title }}</span>
+                            <div class="content-item-background"></div>
+                        </div>
+                    </div>
+                </router-link>
+            </div>
+            <div class="arrow-shortcut-content">
+                <div class="left-content-item" @click="viewMoreShortCut">
+                    <div class="arrow content-item">
+                        <div class="img-arrow icon">
+                            <img
+                                :src="srcArrow"
+                                :style="{
+                                    transform: isViewMoreShortCut
+                                        ? 'rotate(180deg)'
+                                        : 'rotate(0deg)',
+                                }"
+                            />
+                        </div>
+                        <span class="title">{{
+                            isViewMoreShortCut ? "Ẩn bớt" : "Xem thêm"
+                        }}</span>
                         <div class="content-item-background"></div>
                     </div>
                 </div>
-            </router-link>
-        </div>
-        <div class="arrow-category-content">
-            <div class="left-content-item" @click="viewMoreCategory">
-                <div class="arrow content-item">
-                    <div class="img-arrow icon">
-                        <img
-                            :src="srcArrow"
-                            :style="{
-                                transform: isViewMoreCategory
-                                    ? 'rotate(180deg)'
-                                    : 'rotate(0deg)',
-                            }"
-                        />
-                    </div>
-                    <span class="title">{{
-                        isViewMoreCategory ? "Ẩn bớt" : "Xem thêm"
-                    }}</span>
-                    <div class="content-item-background"></div>
-                </div>
             </div>
         </div>
-        <div class="line"></div>
-        <div
-            @mouseover="changeHoverShortCut(true)"
-            @mouseleave="changeHoverShortCut(false)"
-        >
-            <div class="title-shortcut title">
-                <div class="shortcut-text">
-                    <span>Lối tắt của bạn</span>
-                </div>
-                <div class="shortcut-edit" v-show="isHoverShortCut">
-                    <span>Chỉnh sửa</span>
-                    <div class="shortcut-edit-background"></div>
-                </div>
-            </div>
-        </div>
-        <div class="shortcut-category-content">
-            <router-link
-                :to="{ path: `${leftShortCut.path}` }"
-                v-for="leftShortCut in leftShortCuts"
-                :key="leftShortCut.name"
-            >
-                <div class="left-content-item">
-                    <div :class="[leftShortCut.name, 'content-item']">
-                        <img class="icon" :src="leftShortCut.src" />
-                        <span class="title">{{ leftShortCut.title }}</span>
-                        <div class="content-item-background"></div>
-                    </div>
-                </div>
-            </router-link>
-        </div>
-        <div class="arrow-shortcut-content">
-            <div class="left-content-item" @click="viewMoreShortCut">
-                <div class="arrow content-item">
-                    <div class="img-arrow icon">
-                        <img
-                            :src="srcArrow"
-                            :style="{
-                                transform: isViewMoreShortCut
-                                    ? 'rotate(180deg)'
-                                    : 'rotate(0deg)',
-                            }"
-                        />
-                    </div>
-                    <span class="title">{{
-                        isViewMoreShortCut ? "Ẩn bớt" : "Xem thêm"
-                    }}</span>
-                    <div class="content-item-background"></div>
-                </div>
-            </div>
+        <div class="footer-content">
+            <a>Quyền riêng tư</a> · <a>Điều khoản</a> · <a>Quảng cáo</a> ·
+            <a>Lựa chọn quảng cáo</a> · <a>Cookie</a> · <a>Xem thêm</a> · Meta ©
+            2022
         </div>
     </div>
 </template>
@@ -167,7 +174,7 @@ export default {
             if (me.isViewMoreCategory) {
                 me.leftItems = JSON.parse(JSON.stringify(me.leftTempItems));
             } else {
-                me.viewContentDefault();
+                me.viewContentDefault(me.leftItems, me.leftTempItems);
             }
         },
 
@@ -184,50 +191,20 @@ export default {
                     JSON.stringify(me.leftTempShortCuts)
                 );
             } else {
-                me.viewShortCutDefault();
+                me.viewContentDefault(me.leftShortCuts, me.leftTempShortCuts);
             }
         },
 
         /**
          * Hiển thị content mặc định
          */
-        viewContentDefault() {
+        viewContentDefault(items, tempItems) {
             const me = this;
 
-            me.leftTempItems = JSON.parse(JSON.stringify(me.leftItems));
+            tempItems.splice(0, tempItems.length);
+            tempItems.push(...items);
 
-            // 1 row là 52px
-            let n =
-                Math.floor(
-                    document
-                        .getElementById("left-content")
-                        .getBoundingClientRect().height /
-                        2 /
-                        52
-                ) - 2;
-
-            me.leftItems = me.leftItems.slice(0, n);
-        },
-
-        /**
-         * Hiển thị shortcut mặc định
-         */
-        viewShortCutDefault() {
-            const me = this;
-
-            me.leftTempShortCuts = JSON.parse(JSON.stringify(me.leftShortCuts));
-
-            // 1 row là 52px
-            let n =
-                Math.floor(
-                    document
-                        .getElementById("left-content")
-                        .getBoundingClientRect().height /
-                        2 /
-                        52
-                ) - 2;
-
-            me.leftShortCuts = me.leftShortCuts.slice(0, n);
+            items.splice(5, items.length);
         },
 
         /**
@@ -256,10 +233,8 @@ export default {
         }
 
         // Hiển thị content mặc định
-        me.viewContentDefault();
-
-        // Hiển thị shortcut mặc định
-        me.viewShortCutDefault();
+        me.viewContentDefault(me.leftItems, me.leftTempItems);
+        me.viewContentDefault(me.leftShortCuts, me.leftTempShortCuts);
     },
 };
 </script>
@@ -269,7 +244,6 @@ export default {
     background-color: #18191a;
     color: #e4e6eb;
     padding-top: 16px;
-    overflow-y: scroll;
 }
 
 .left-content-item {
@@ -357,5 +331,22 @@ export default {
     border-radius: 4px;
     inset: -8px;
     position: absolute;
+}
+
+.body-content {
+    height: 90%;
+    overflow-y: auto;
+}
+
+.footer-content {
+    height: 10%;
+    font-size: 13px;
+    padding: 0 16px;
+    color: #b0b3b8;
+}
+
+.footer-content a:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
 </style>
