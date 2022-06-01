@@ -99,9 +99,11 @@
             </div>
         </div>
         <div class="footer-content">
-            <a>Quyền riêng tư</a> · <a>Điều khoản</a> · <a>Quảng cáo</a> ·
-            <a>Lựa chọn quảng cáo</a> · <a>Cookie</a> · <a>Xem thêm</a> · Meta ©
-            2022
+            <div class="footer-content-option">
+                <a>Quyền riêng tư</a> · <a>Điều khoản</a> · <a>Quảng cáo</a> ·
+                <a>Lựa chọn quảng cáo</a> · <a>Cookie</a> · <a>Xem thêm</a> ·
+                Meta © 2022
+            </div>
         </div>
     </div>
 </template>
@@ -343,10 +345,16 @@ export default {
     font-size: 13px;
     padding: 0 16px;
     color: #b0b3b8;
+    position: relative;
 }
 
 .footer-content a:hover {
     text-decoration: underline;
     cursor: pointer;
+}
+
+.footer-content-option {
+    position: absolute;
+    bottom: 16px;
 }
 </style>

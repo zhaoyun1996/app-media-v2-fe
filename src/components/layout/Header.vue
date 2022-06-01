@@ -1,13 +1,13 @@
 <template lang="">
     <div id="header">
         <div class="left-header">
-            <div class="back" v-if="isFocusInputSearch">
+            <div class="back" v-show="isFocusInputSearch">
                 <div class="img-back">
                     <img :src="srcBack" />
                     <div class="back-background"></div>
                 </div>
             </div>
-            <img class="logo" :src="srcLogo" v-else />
+            <img class="logo" :src="srcLogo" v-show="!isFocusInputSearch" />
             <label class="group-search">
                 <span class="icon-search">
                     <img :src="srcSearch" />
