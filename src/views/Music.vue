@@ -1,18 +1,8 @@
 <template lang="">
-    <div class="overlay"></div>
-    <div id="audio">
-        <div id="search-song">
-            <input
-                ref="inputSearch"
-                v-model="searchValue"
-                @keyup.enter="search"
-                id="search-value"
-                placeholder="Nhập từ khóa để tìm kiếm bài hát"
-                autocomplete="off"
-            />
-            <!-- <button @click="getChartHome">Get Chart Home</button> -->
-            <!-- <button @click="getNewReleaseChart">Get New Release Chart</button> -->
-        </div>
+    <div id="music-container"></div>
+    <div id="music">
+        <!-- <button @click="getChartHome">Get Chart Home</button> -->
+        <!-- <button @click="getNewReleaseChart">Get New Release Chart</button> -->
         <div class="lyric-left" v-if="sentences && sentences.new">
             <div
                 v-for="(item, index) in sentences.new"
@@ -89,7 +79,7 @@
 
                 <div class="lyric" v-html="lyric"></div>
 
-                <audio id="audio-control" controls v-show="false">
+                <audio id="music-control" controls v-show="false">
                     <source type="audio/mpeg" />
                 </audio>
             </div>
@@ -145,18 +135,17 @@
 <script>
 import axios from "axios";
 export default {
-    name: "Audio",
+    name: "Music",
 
     data() {
-        window.audio = this;
+        window.music = this;
         return {
-            searchValue: "",
             songs: [],
             idSongActived: "",
             title: "",
             thumbnailM: "",
             isPlay: false,
-            audioControl: null,
+            musicControl: null,
             cdThumbAnimate: null,
             isRepeat: false,
             isRandom: false,
@@ -188,7 +177,7 @@ export default {
                 url: `${import.meta.env.VITE_API_URL}/getSong?id=${id}`,
             });
 
-            me.audioControl.src = res.data.data[128];
+            me.musicControl.src = res.data.data[128];
         },
 
         /**
@@ -299,7 +288,7 @@ export default {
                     me.idSongActived
                 }`,
             });
-            // audio = document.getElementById("audio");
+            // music = document.getElementById("music");
 
             console.log(res);
         },
@@ -382,14 +371,14 @@ export default {
          * Thực hiện tìm kiếm bài hát
          * Search Song
          */
-        async search() {
+        async search(searchValue) {
             const me = this;
 
             let res = await axios({
                 method: "GET",
-                url: `${import.meta.env.VITE_API_URL}/search?searchValue=${
-                    me.searchValue
-                }`,
+                url: `${
+                    import.meta.env.VITE_API_URL
+                }/search?searchValue=${searchValue}`,
             });
 
             if (res && res.data && res.data.msg == "Success" && res.data.data) {
@@ -413,7 +402,7 @@ export default {
                 method: "GET",
                 url: `${import.meta.env.VITE_API_URL}/getListMV`,
             });
-            // audio = document.getElementById("audio");
+            // music = document.getElementById("music");
 
             console.log(res);
         },
@@ -429,7 +418,7 @@ export default {
                 method: "GET",
                 url: `${import.meta.env.VITE_API_URL}/getCategoryMV`,
             });
-            // audio = document.getElementById("audio");
+            // music = document.getElementById("music");
 
             console.log(res);
         },
@@ -445,7 +434,7 @@ export default {
                 method: "GET",
                 url: `${import.meta.env.VITE_API_URL}/getVideo`,
             });
-            // audio = document.getElementById("audio");
+            // music = document.getElementById("music");
 
             console.log(res);
         },
@@ -460,10 +449,10 @@ export default {
             let songInterval;
 
             // Khi nhạc đang phát
-            me.audioControl.onplay = () => {
+            me.musicControl.onplay = () => {
                 songInterval = setInterval(() => {
                     me.currentTime = me.convertTime(
-                        parseInt(me.audioControl.currentTime, 10)
+                        parseInt(me.musicControl.currentTime, 10)
                     );
 
                     me.runLyric();
@@ -471,12 +460,12 @@ export default {
             };
 
             // Khi nhạc dừng lại
-            me.audioControl.onpause = () => {
+            me.musicControl.onpause = () => {
                 clearInterval(songInterval);
             };
 
             // Khi hết bài
-            me.audioControl.onended = () => {
+            me.musicControl.onended = () => {
                 // Random bài hát
                 if (me.isRandom) {
                     me.randomSong();
@@ -495,26 +484,31 @@ export default {
 
             // Khi tiến độ bài hát thay đổi
             // When the song progress changes
-            me.audioControl.ontimeupdate = () => {
-                if (me.audioControl.duration) {
+            me.musicControl.ontimeupdate = () => {
+                if (me.musicControl.duration) {
                     const progressPercent = (
-                        (me.audioControl.currentTime /
-                            me.audioControl.duration) *
+                        (me.musicControl.currentTime /
+                            me.musicControl.duration) *
                         100
                     ).toFixed(2);
                     progress.value = progressPercent;
 
                     // Lấy width của thanh progress thật
-                    let widthProgress = document
-                        .getElementsByClassName("progress")[0]
-                        .getBoundingClientRect().width;
+                    if (
+                        document.getElementsByClassName("progress") &&
+                        document.getElementsByClassName("progress").length > 0
+                    ) {
+                        let widthProgress = document
+                            .getElementsByClassName("progress")[0]
+                            .getBoundingClientRect().width;
 
-                    // Tính toán lại width của thanh progress tạm thời
-                    document.getElementsByClassName(
-                        "progress-temp"
-                    )[0].style.width = `${
-                        (widthProgress * progressPercent) / 100
-                    }px`;
+                        // Tính toán lại width của thanh progress tạm thời
+                        document.getElementsByClassName(
+                            "progress-temp"
+                        )[0].style.width = `${
+                            (widthProgress * progressPercent) / 100
+                        }px`;
+                    }
                 }
             };
         },
@@ -639,13 +633,6 @@ export default {
                 me.title = song.title;
                 me.thumbnailM = song.thumbnailM;
                 me.totalTime = me.convertTime(song.duration);
-
-                // Thay đổi ảnh nền
-                document.getElementById(
-                    "right-content"
-                ).style.backgroundImage = `url(${song.thumbnailM})`;
-                document.getElementById("right-content").style.backgroundSize =
-                    "100% 100%";
             }
         },
 
@@ -659,7 +646,7 @@ export default {
 
             me.cdThumbAnimate.play();
 
-            me.audioControl.play();
+            me.musicControl.play();
         },
 
         /**
@@ -672,7 +659,7 @@ export default {
 
             me.cdThumbAnimate.pause();
 
-            me.audioControl.pause();
+            me.musicControl.pause();
         },
 
         /**
@@ -746,7 +733,7 @@ export default {
                     i++
                 ) {
                     let sentence = me.sentences.new[i];
-                    let timeLyric = me.audioControl.currentTime * 1000;
+                    let timeLyric = me.musicControl.currentTime * 1000;
                     if (
                         timeLyric >= sentence.startTime &&
                         timeLyric <= sentence.endTime
@@ -764,7 +751,7 @@ export default {
                 let sentence = me.sentences.old[me.rowLyric];
                 if (sentence && Array.isArray(sentence.words)) {
                     for (let y = 0; y < sentence.words.length; y++) {
-                        let timeLyric = me.audioControl.currentTime * 1000;
+                        let timeLyric = me.musicControl.currentTime * 1000;
                         let word = sentence.words[y];
 
                         // Sửa lại style
@@ -821,7 +808,7 @@ export default {
             const me = this;
 
             // Nếu có bài hát thì mới cho tua
-            if (!Number.isNaN(me.audioControl.duration)) {
+            if (!Number.isNaN(me.musicControl.duration)) {
                 let widthProgressTemp =
                         event.pageX - event.target.getBoundingClientRect().x,
                     widthProgress = event.target.getBoundingClientRect().width;
@@ -832,8 +819,8 @@ export default {
                 )[0].style.width = `${widthProgressTemp}px`;
 
                 // Thay đổi tiến độ thực của bài hát
-                me.audioControl.currentTime =
-                    (me.audioControl.duration / widthProgress) *
+                me.musicControl.currentTime =
+                    (me.musicControl.duration / widthProgress) *
                     widthProgressTemp;
             }
         },
@@ -862,8 +849,13 @@ export default {
     mounted() {
         const me = this;
 
-        // Lấy control audio để xử lý
-        me.audioControl = document.getElementById("audio-control");
+        // Bắt sự kiện search nhạc từ ô tìm kiếm
+        this.emitter.on("search", (searchValue) => {
+            me.search(searchValue);
+        });
+
+        // Lấy control music để xử lý
+        me.musicControl = document.getElementById("music-control");
 
         // Xử lý CD quay / dừng
         // Handle CD spins / stops
@@ -875,57 +867,22 @@ export default {
             });
         me.cdThumbAnimate.pause();
 
-        // Lắng nghe các event của control audio
+        // Lắng nghe các event của control music
         me.listenEvent();
-
-        // Thực hiện focus vào ô tìm kiếm
-        if (me.$refs && me.$refs.inputSearch) {
-            me.$refs.inputSearch.focus();
-        }
     },
 };
 </script>
 <style lang="css" scoped>
-#audio {
+#music {
     margin: 0 auto;
     font-family: "Poppins", sans-serif;
-}
-
-#search-song {
-    width: 85%;
-    text-align: center;
-    position: fixed;
-    margin: 10px auto;
-    top: 5%;
-}
-
-#search-value {
-    height: calc(2.25rem + 2px);
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    width: 300px;
+    color: #18191a;
 }
 
 .player {
     position: relative;
     max-width: 480px;
     margin: 0 auto;
-}
-
-.overlay {
-    height: 85%;
-    width: 85%;
-    background-color: #291547;
-    opacity: 0.8;
-    backdrop-filter: blur(10px);
-    position: absolute;
 }
 
 /* DASHBOARD */

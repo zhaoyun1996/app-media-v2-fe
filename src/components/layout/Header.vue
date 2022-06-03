@@ -13,10 +13,13 @@
                     <img :src="srcSearch" />
                 </span>
                 <input
+                    v-model="searchValue"
+                    @keyup.enter="search"
                     class="input-search"
-                    placeholder="Tìm kiếm bài hát"
+                    placeholder="Tìm kiếm trên App Media V2"
                     @focus="isFocusInputSearch = !isFocusInputSearch"
                     @blur="isFocusInputSearch = !isFocusInputSearch"
+                    autocomplete="off"
                 />
             </label>
         </div>
@@ -122,6 +125,7 @@ export default {
             srcUp: images.up,
             categoryItemActive: "home",
             isFocusInputSearch: false,
+            searchValue: "",
         };
     },
 
@@ -133,6 +137,12 @@ export default {
             const me = this;
 
             me.categoryItemActive = type;
+        },
+
+        search() {
+            const me = this;
+
+            me.emitter.emit("search", me.searchValue);
         },
     },
 

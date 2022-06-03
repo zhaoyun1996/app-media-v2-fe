@@ -18,7 +18,13 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 /* add icons to the library */
 library.add(fas, far, fab);
 
+import mitt from "mitt";
+
+const emitter = mitt();
+
 const app = createApp(App);
+
+app.config.globalProperties.emitter = emitter;
 
 /* add font awesome icon component */
 app.component("FontAwesomeIcon", FontAwesomeIcon);

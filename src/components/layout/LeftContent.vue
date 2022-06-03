@@ -102,7 +102,7 @@
             <div class="footer-content-option">
                 <a>Quyền riêng tư</a> · <a>Điều khoản</a> · <a>Quảng cáo</a> ·
                 <a>Lựa chọn quảng cáo</a> · <a>Cookie</a> · <a>Xem thêm</a> ·
-                Meta © 2022
+                App Media V2 © 2022
             </div>
         </div>
     </div>
@@ -133,6 +133,12 @@ export default {
                     path: "/group",
                     src: images.groupLeft,
                     title: "Group",
+                },
+                {
+                    name: "music",
+                    path: "/music",
+                    src: images.music,
+                    title: "Music",
                 },
             ],
             leftTempItems: [],

@@ -1,13 +1,11 @@
 <template lang="">
     <div id="right-content">
         <Image v-if="false" />
-        <Audio v-if="false" />
         <router-view />
     </div>
 </template>
 <script>
 import Image from "../media/Image.vue";
-import Audio from "../media/Audio.vue";
 
 export default {
     name: "RightContent",
@@ -24,5 +22,6 @@ export default {
     color: #e4e6eb;
     overflow: auto;
     overflow: overlay;
+    position: relative;
 }
 </style>
