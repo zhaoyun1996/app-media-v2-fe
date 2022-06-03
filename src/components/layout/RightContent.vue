@@ -1,12 +1,9 @@
 <template lang="">
     <div id="right-content">
-        <Image v-if="false" />
         <router-view />
     </div>
 </template>
 <script>
-import Image from "../media/Image.vue";
-
 export default {
     name: "RightContent",
     components: {

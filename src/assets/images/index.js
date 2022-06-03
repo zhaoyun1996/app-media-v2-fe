@@ -12,6 +12,7 @@ import watchLeft from "@/assets/images/watch.png";
 import marketPlaceLeft from "@/assets/images/market-place.png";
 import groupLeft from "@/assets/images/group.png";
 import music from "@/assets/images/music.png";
+import image from "@/assets/images/image.png";
 import caretDown from "@/assets/images/caret-down.svg";
 import caretDownActive from "@/assets/images/caret-down-active.svg";
 import back from "@/assets/images/back.svg";
@@ -36,6 +37,7 @@ const images = {
     caretDownActive: caretDownActive,
     back: back,
     arrow: arrow,
+    image: image,
 };
 
 export default images;

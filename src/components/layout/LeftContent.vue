@@ -117,6 +117,18 @@ export default {
             srcAvatar: images.avatar,
             leftItems: [
                 {
+                    name: "music",
+                    path: "/music",
+                    src: images.music,
+                    title: "Music",
+                },
+                {
+                    name: "image",
+                    path: "/image",
+                    src: images.image,
+                    title: "Image",
+                },
+                {
                     name: "watch",
                     path: "/watch",
                     src: images.watchLeft,
@@ -133,12 +145,6 @@ export default {
                     path: "/group",
                     src: images.groupLeft,
                     title: "Group",
-                },
-                {
-                    name: "music",
-                    path: "/music",
-                    src: images.music,
-                    title: "Music",
                 },
             ],
             leftTempItems: [],
