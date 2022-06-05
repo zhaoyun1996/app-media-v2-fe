@@ -202,7 +202,6 @@ export default {
                         },
                     });
                     if (response.data.url) {
-                        console.log(import.meta.env);
                         swal("Tải ảnh lên!", "Thành công!", "success", {
                             buttons: false,
                             timer: me.timeShowToast,
@@ -248,7 +247,6 @@ export default {
                 me.unmask();
             } catch (error) {
                 me.unmask();
-                console.log(error);
             }
         },
 
