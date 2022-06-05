@@ -26,12 +26,13 @@
                         <p
                             class="mb-2 text-sm text-gray-500 dark:text-gray-400"
                         >
-                            <span class="font-semibold">Click to upload</span>
-                            or drag and drop
+                            <span class="font-semibold"
+                                >Nhấn để tải ảnh lên</span
+                            >
                         </p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                        <!-- <p class="text-xs text-gray-500 dark:text-gray-400">
                             SVG, PNG, JPG or GIF (MAX. 800x400px)
-                        </p>
+                        </p> -->
                     </div>
                     <input
                         ref="file"
@@ -43,25 +44,47 @@
                 </label>
             </div>
 
-            <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                :disabled="!file"
-                @click="uploadImage"
-            >
-                Upload
-            </button>
+            <div style="display: grid">
+                <button
+                    :class="[
+                        !file || uploading
+                            ? 'bg-blue-300 focus:outline-none'
+                            : 'bg-blue-500 hover:bg-blue-700',
+                        'text-white font-bold py-2 px-4 rounded',
+                    ]"
+                    :disabled="!file || uploading"
+                    @click="uploadImage"
+                >
+                    Tải ảnh lên
+                </button>
+                <button
+                    :class="[
+                        'bg-green-500 hover:bg-green-700',
+                        'text-white font-bold py-2 px-4 rounded',
+                    ]"
+                    style="margin-top: 15px"
+                    @click="fetchImages"
+                >
+                    Lấy lại danh sách ảnh
+                </button>
+            </div>
             <img v-if="image" :src="image.preview" alt="" />
         </div>
 
-        <div class="px-5 py-2 mx-auto lg:pt-12 lg:px-32">
-            <div class="flex flex-wrap -m-1 md:-m-2">
+        <div class="px-5 py-2 mx-auto lg:pt-12 lg:px-32 images">
+            <div class="flex flex-wrap">
                 <div
-                    class="border border-blue-300 shadow rounded-md p-4 md:w-1/4 w-1/2"
+                    class="rounded-md md:w-1/4 w-1/2 image-temp"
+                    v-for="item in 16"
                     v-if="loading"
                 >
-                    <div class="animate-pulse flex space-x-4">
-                        <div class="rounded-full bg-slate-700 h-10 w-10"></div>
-                        <div class="flex-1 space-y-6 py-1">
+                    <div
+                        class="m-1 md:m-2 animate-pulse flex image-content-temp"
+                    >
+                        <div
+                            class="rounded-full bg-slate-700 h-10 w-10 m-2"
+                        ></div>
+                        <div class="flex-1 space-y-6 py-1 m-2">
                             <div class="h-2 bg-slate-700 rounded"></div>
                             <div class="space-y-3">
                                 <div class="grid grid-cols-3 gap-4">
@@ -128,6 +151,7 @@ export default {
             next: null,
             loading: false,
             timeShowToast: 1500,
+            uploading: false,
         };
     },
 
@@ -162,6 +186,8 @@ export default {
 
             me.mask();
 
+            me.uploading = true;
+
             let formData = new FormData();
             if (me.file) {
                 formData.append("file", me.file);
@@ -191,6 +217,8 @@ export default {
                         buttons: false,
                         timer: 1500,
                     });
+
+                    me.uploading = false;
 
                     me.unmask();
                 }
@@ -281,6 +309,8 @@ export default {
 
             me.$refs.file.value = null;
             me.image = null;
+            me.file = null;
+            me.uploading = false;
         },
     },
 
@@ -296,6 +326,10 @@ export default {
     display: flex;
     height: 200px;
     align-items: center;
+    position: fixed;
+    width: calc(100% - 32rem);
+    z-index: 1;
+    background-color: #18191a;
 }
 
 .control button {
@@ -305,5 +339,20 @@ export default {
 .control img {
     height: 100%;
     margin-left: 50px;
+}
+
+.images {
+    position: absolute;
+    top: 256px;
+    width: -webkit-fill-available;
+}
+
+.image-temp {
+}
+
+.image-content-temp {
+    background-color: #3a3b3c;
+    height: 130px;
+    border-radius: 5px;
 }
 </style>
