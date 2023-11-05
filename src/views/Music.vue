@@ -1010,6 +1010,7 @@ export default {
 }
 
 .song {
+    cursor: pointer;
     display: flex;
     align-items: center;
     margin-bottom: 12px;

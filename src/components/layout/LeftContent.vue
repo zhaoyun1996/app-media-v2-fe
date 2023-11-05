@@ -17,10 +17,12 @@
                     :to="{ path: `${leftItem.path}` }"
                     v-for="leftItem in leftItems"
                     :key="leftItem.name"
+                    @click="itemActive = leftItem.name"
                 >
                     <div class="left-content-item">
-                        <div :class="[leftItem.name, 'content-item']">
-                            <img class="icon" :src="leftItem.src" />
+                        <div :class="[leftItem.name, 'content-item', {'active': leftItem.name == itemActive}]">
+                            <img class="icon" :src="leftItem.src" v-if="leftItem.src" />
+                            <i :class="['icon', leftItem.class]" v-else></i>
                             <span class="title">{{ leftItem.title }}</span>
                             <div class="content-item-background"></div>
                         </div>
@@ -117,6 +119,12 @@ export default {
             srcAvatar: images.avatar,
             leftItems: [
                 {
+                    name: "love",
+                    path: "/love",
+                    class: "sprite-icon",
+                    title: "Love",
+                },
+                {
                     name: "music",
                     path: "/music",
                     src: images.music,
@@ -173,6 +181,7 @@ export default {
             isViewMoreCategory: false,
             isViewMoreShortCut: false,
             isHoverShortCut: false,
+            itemActive: 'home'
         };
     },
 
@@ -249,6 +258,23 @@ export default {
         // Hiển thị content mặc định
         me.viewContentDefault(me.leftItems, me.leftTempItems);
         me.viewContentDefault(me.leftShortCuts, me.leftTempShortCuts);
+    },
+
+    watch: {
+        /**
+         * Bắt sự kiện thay đổi router
+         */
+        $route(to, from) {
+            const me = this;
+
+            let leftItem = me.leftItems.find(
+                (item) => item.path == to.path
+            );
+
+            if (leftItem) {
+                me.itemActive = leftItem.name;
+            }
+        },
     },
 };
 </script>
@@ -368,5 +394,24 @@ export default {
 .footer-content-option {
     position: absolute;
     bottom: 16px;
+}
+
+.sprite-icon {
+    background-image: url("@/assets/images/sprite-icon.png");
+    background-position: 0px 0px;
+    background-size: auto;
+    width: 36px;
+    height: 36px;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.content-item.active .content-item-background {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    height: 100%;
+    left: 0;
+    width: 100%;
 }
 </style>

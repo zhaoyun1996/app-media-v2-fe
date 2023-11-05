@@ -345,9 +345,6 @@ export default {
     width: -webkit-fill-available;
 }
 
-.image-temp {
-}
-
 .image-content-temp {
     background-color: #3a3b3c;
     height: 130px;
