@@ -244,10 +244,10 @@ export default {
         const me = this;
 
         // Fake content
-        for (let index = 0; index < 10; index++) {
-            const element = me.leftItems[index % 3];
-            me.leftItems.push(element);
-        }
+        // for (let index = 0; index < 10; index++) {
+        //     const element = me.leftItems[index % 3];
+        //     me.leftItems.push(element);
+        // }
 
         // Fake content
         for (let index = 0; index < 10; index++) {
