@@ -1,5 +1,6 @@
 <template lang="">
     <div id="love">
+        <div class="progress" style="margin-bottom:50px; font-size: 20px">Been Love Memory</div>
         <div class="progress">
             <div class="loader">
                 <div class="water"></div>
@@ -11,26 +12,45 @@
             </div>
         </div>
         <div class="progress" style="margin-top: 80px">
-            <div>
-                <img id="avatar_1" class="avatar" src="@/assets/images/avatar_1.jpg">
+            <label for="dropzone-file-1">
+                <img v-if="urlAvatar1" id="avatar_1" class="avatar" :src="urlAvatar1">
+                <img v-else id="avatar_1" class="avatar" src="@/assets/images/no_avatar_male.jpg">
                 <p id="nickname_1" class="nickname">Kiệt</p>
-            </div>
+                <input
+                    ref="file"
+                    id="dropzone-file-1"
+                    type="file"
+                    @change="handlePreviewImage($event, true)"
+                    class="hidden"
+                    />
+            </label>
             <img class="heart" src="@/assets/images/big_heart.png">
-            <div>
-                <img id="avatar_2" class="avatar" src="@/assets/images/avatar.jpeg">
+            <label for="dropzone-file-2">
+                <img v-if="urlAvatar2" id="avatar_2" class="avatar" :src="urlAvatar2">
+                <img v-else id="avatar_2" class="avatar" src="@/assets/images/no_avatar_female.jpg">
                 <p id="nickname_2" class="nickname">Duyên</p>
-            </div>
+                <input
+                    ref="file"
+                    id="dropzone-file-2"
+                    type="file"
+                    @change="handlePreviewImage($event, false)"
+                    class="hidden"
+                    />
+            </label>
         </div>
     </div>
 </template>
 <script>
+import axios from "axios";
+import swal from "sweetalert";
 export default {
     name: "Love",
 
     data() {
-        window.love = this;
         return {
-            fromDate: new Date("2023/02/14")
+            fromDate: new Date("2023/02/14"),
+            urlAvatar1: null,
+            urlAvatar2: null
         };
     },
 
@@ -67,11 +87,79 @@ export default {
                 return diffDays;
             }
             return 0;
-        }
+        },
+
+        /**
+         * Upload ảnh
+         */
+         async handlePreviewImage(e, type) {
+            const me = this;
+
+            debugger
+
+            let formData = new FormData();
+            if (e.target.files[0]) {
+                formData.append("file", e.target.files[0]);
+
+                try {
+                    const response = await axios({
+                        method: "POST",
+                        url: `${import.meta.env.VITE_API_URL}/api/upload?folder_name=love&file_name=avatar_${type ? 1 : 2}`,
+                        data: formData,
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    });
+                    if (response.data) {
+                        type ? me.urlAvatar1 = response.data.url : me.urlAvatar2 = response.data.url;
+                        console.log(me.urlAvatar1)
+                    }
+                } catch (error) {
+                    swal("Tải ảnh lên!", "Thất bại!", "error", {
+                        buttons: false,
+                        timer: 1500,
+                    });
+                }
+            }
+        },
+
+        /**
+         * Lấy danh sách ảnh
+         */
+         async fetchImages() {
+            const me = this;
+
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/api/photos?folder_name=love`
+                );
+
+                if(response.data.results.images) {
+                    let images = response.data.results.images;
+
+                    let avatar1 = images.find(img => img.public_id == "love/avatar_1");
+                    if(avatar1) {
+                        me.urlAvatar1 = avatar1.secure_url;
+                    }
+
+                    let avatar2 = images.find(img => img.public_id == "love/avatar_2");
+                    if(avatar2) {
+                        me.urlAvatar2 = avatar2.secure_url;
+                    }
+                }
+            } catch (error) {
+                swal("Lấy ảnh lên!", "Thất bại!", "error", {
+                    buttons: false,
+                    timer: 1500,
+                });
+            }
+        },
     },
 
-    mounted() {
+    created() {
+        const me = this;
 
+        me.fetchImages();
     },
 };
 </script>

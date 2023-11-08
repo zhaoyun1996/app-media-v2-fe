@@ -22,7 +22,6 @@ export default {
         Footer,
     },
     data() {
-        window.app = this;
         return {};
     },
 };

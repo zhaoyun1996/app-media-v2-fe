@@ -138,7 +138,6 @@ export default {
     name: "Music",
 
     data() {
-        window.music = this;
         return {
             songs: [],
             idSongActived: "",

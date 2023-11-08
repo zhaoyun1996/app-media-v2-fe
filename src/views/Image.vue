@@ -47,12 +47,12 @@
             <div style="display: grid">
                 <button
                     :class="[
-                        !file || uploading
+                        !image || uploading
                             ? 'bg-blue-300 focus:outline-none'
                             : 'bg-blue-500 hover:bg-blue-700',
                         'text-white font-bold py-2 px-4 rounded',
                     ]"
-                    :disabled="!file || uploading"
+                    :disabled="!image || uploading"
                     @click="uploadImage"
                 >
                     Tải ảnh lên
@@ -102,14 +102,16 @@
                 </div>
                 <div
                     class="flex flex-wrap md:w-1/4 w-1/2"
-                    v-for="image in images"
+                    v-for="(image, imageIndex) in images"
                     :key="image.public_id"
                     v-else
                 >
-                    <div class="w-full p-1 md:p-2">
+                    <div class="w-full p-1 md:p-2" style="position: relative;">
+                        <div class="icon-delete-image" @click="deleteImagesById(images[0].public_id)">Xóa</div>
                         <img
                             alt="gallery"
                             class="block object-cover object-center rounded-lg"
+                            @click="index = imageIndex"
                             :src="image.secure_url"
                             :style="[
                                 {
@@ -121,6 +123,7 @@
                         />
                     </div>
                 </div>
+                <gallery :images="images.map(image => image.secure_url)" :index="index" @close="index = null"></gallery>
             </div>
             <div class="text-center my-4" v-if="next">
                 <button
@@ -137,22 +140,25 @@
 <script>
 import axios from "axios";
 import swal from "sweetalert";
+import Gallery from 'vue-gallery';
 
 export default {
     name: "Image",
 
     data() {
-        window.image = this;
-
         return {
             images: [],
             image: null,
-            file: null,
             next: null,
             loading: false,
             timeShowToast: 1500,
             uploading: false,
+            index: null
         };
+    },
+
+    components: {
+        Gallery
     },
 
     methods: {
@@ -162,20 +168,9 @@ export default {
         handlePreviewImage(e) {
             const me = this;
 
-            me.file = e.target.files[0];
+            me.image = e.target.files[0];
 
-            me.file.preview = URL.createObjectURL(me.file);
-
-            me.setImage(me.file);
-        },
-
-        /**
-         * Gán lại thông tin để hiển thị ảnh
-         */
-        setImage(file) {
-            let me = this;
-
-            me.image = file;
+            me.image.preview = URL.createObjectURL(me.image);
         },
 
         /**
@@ -189,23 +184,23 @@ export default {
             me.uploading = true;
 
             let formData = new FormData();
-            if (me.file) {
-                formData.append("file", me.file);
+            if (me.image) {
+                formData.append("file", me.image);
 
                 try {
                     const response = await axios({
                         method: "POST",
-                        url: `${import.meta.env.VITE_API_URL}/api/upload`,
+                        url: `${import.meta.env.VITE_API_URL}/api/upload?folder_name=photos`,
                         data: formData,
                         headers: {
                             "Content-Type": "multipart/form-data",
                         },
                     });
                     if (response.data.url) {
-                        swal("Tải ảnh lên!", "Thành công!", "success", {
-                            buttons: false,
-                            timer: me.timeShowToast,
-                        });
+                        // swal("Tải ảnh lên!", "Thành công!", "success", {
+                        //     buttons: false,
+                        //     timer: me.timeShowToast,
+                        // });
 
                         setTimeout(async () => {
                             await me.fetchImages();
@@ -234,7 +229,7 @@ export default {
 
             try {
                 const response = await axios.get(
-                    `${import.meta.env.VITE_API_URL}/api/photos`
+                    `${import.meta.env.VITE_API_URL}/api/photos?folder_name=photos`
                 );
 
                 me.images = response.data.results.images;
@@ -251,7 +246,7 @@ export default {
         },
 
         /**
-         * Xem chi tiết ảnh
+         * Xem thêm ảnh
          */
         async loadMore() {
             const me = this;
@@ -282,6 +277,31 @@ export default {
         },
 
         /**
+         * Lấy full ảnh
+         */
+         async deleteImagesById(publicIds) {
+            const me = this;
+            me.mask();
+            if(!Array.isArray(publicIds)) {
+                publicIds = [publicIds];
+            }
+            try {
+                await axios.delete(
+                    `${import.meta.env.VITE_API_URL}/api/delete_photos_by_id`,
+                    {
+                        data: {
+                            public_ids: publicIds
+                        }
+                    }
+                );
+                await me.fetchImages();
+                me.unmask();
+            } catch (error) {
+                me.unmask();
+            }
+        },
+
+        /**
          * Hiển thị loading
          */
         mask() {
@@ -307,7 +327,6 @@ export default {
 
             me.$refs.file.value = null;
             me.image = null;
-            me.file = null;
             me.uploading = false;
         },
     },
@@ -349,5 +368,14 @@ export default {
     background-color: #3a3b3c;
     height: 130px;
     border-radius: 5px;
+}
+
+.icon-delete-image {
+    position: absolute;
+    right: 0.5rem;
+    cursor: pointer;
+    background-color: green;
+    padding: 1px 6px;
+    border-radius: 0.5rem;
 }
 </style>
