@@ -95,8 +95,6 @@ export default {
          async handlePreviewImage(e, type) {
             const me = this;
 
-            debugger
-
             let formData = new FormData();
             if (e.target.files[0]) {
                 formData.append("file", e.target.files[0]);
