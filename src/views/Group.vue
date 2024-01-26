@@ -65,6 +65,7 @@ export default {
         return {
             accounts: [],
             showPopup: false,
+            account_id: '',
             user_name: '',
             password: '',
             mode: 'add'
@@ -151,6 +152,7 @@ export default {
                 method: "PUT",
                 url: `${import.meta.env.VITE_API_TESTING_URL}/api/APITesting/EditAccount`,
                 data: {
+                    account_id: me.account_id,
                     user_name: me.user_name,
                     password: me.password
                 }
@@ -189,10 +191,12 @@ export default {
             me.mode = mode;
 
             if(account) {
+                me.account_id = account.account_id;
                 me.user_name = account.user_name;
                 me.password = account.password;
             }
             else {
+                me.account_id = '';
                 me.user_name = '';
                 me.password = '';
             }
@@ -240,7 +244,7 @@ export default {
             // Reset input fields on close
             me.user_name = '';
             me.password = '';
-
+            me.account_id = '';
         },
     }
 };
