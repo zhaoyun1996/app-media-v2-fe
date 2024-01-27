@@ -35,23 +35,24 @@
         </table>
     </div>
 
-    <div v-if="showPopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div v-if="showPopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" id="popup-handle-account">
         <div class="bg-white p-8 rounded shadow-md">
             <h2 class="text-2xl font-bold mb-4 text-gray-700">{{ mode == 'add' ? 'Thêm' : 'Sửa' }} tài khoản</h2>
             <form @submit.prevent="login" class="text-gray-700">
                 <div class="mb-4">
                     <label for="username" class="block text-sm font-medium">Tên tài khoản</label>
-                    <input v-model="user_name" autocomplete="off" type="text" id="username" name="username" class="mt-1 p-2 border rounded" required />
+                    <input v-model="userName" autocomplete="off" type="text" id="username" name="username" class="mt-1 p-2 border rounded" required />
                 </div>
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium">Mật khẩu</label>
                     <div class="relative">
-                        <input v-model="password" autocomplete="off" type="password" id="password" name="password" class="mt-1 p-2 border rounded" required />
-                        <button @click="togglePasswordVisibility" class="absolute top-1/2 right-2 transform -translate-y-1/2">👁️</button>
+                        <input v-model="password" autocomplete="off" type="text" id="password" name="password" class="mt-1 p-2 border rounded" required />
                     </div>
                 </div>
-                <button type="submit" @click="handleAccount" class="bg-blue-500 text-white p-2 rounded">{{ mode == 'add' ? 'Thêm' : 'Sửa' }}</button>
-                <button @click="closePopup" type="button" class="ml-2 text-gray-500">Hủy</button>
+                <div>
+                    <button type="submit" @click="handleAccount" class="bg-blue-500 text-white p-2 rounded float-right">{{ mode == 'add' ? 'Thêm' : 'Sửa' }}</button>
+                    <button @click="closePopup" type="button" class="p-2 text-gray-500 float-left">Hủy</button>
+                </div>
             </form>
         </div>
     </div>
@@ -71,11 +72,10 @@ export default {
         return {
             accounts: [],
             showPopup: false,
-            account_id: '',
-            user_name: '',
+            accountId: '',
+            userName: '',
             password: '',
-            mode: 'add',
-            showPassword: false,
+            mode: 'add'
         }
     },
     created() {
@@ -159,8 +159,8 @@ export default {
                 method: "PUT",
                 url: `${import.meta.env.VITE_API_TESTING_URL}/api/APITesting/EditAccount`,
                 data: {
-                    account_id: me.account_id,
-                    user_name: me.user_name,
+                    account_id: me.accountId,
+                    user_name: me.userName,
                     password: me.password
                 }
             });
@@ -198,17 +198,29 @@ export default {
             me.mode = mode;
 
             if (account) {
-                me.account_id = account.account_id;
-                me.user_name = account.user_name;
+                me.accountId = account.account_id;
+                me.userName = account.user_name;
                 me.password = account.password;
             }
             else {
-                me.account_id = '';
-                me.user_name = '';
+                me.accountId = '';
+                me.userName = '';
                 me.password = '';
             }
 
             me.showPopup = true;
+
+            me.$nextTick(() => {
+                let pAccount = document.getElementById("popup-handle-account");
+
+                if(pAccount) {
+                    let inputs = pAccount.getElementsByTagName('input');
+
+                    if(inputs && inputs.length > 0) {
+                        inputs[0].focus();
+                    }
+                }
+            });
         },
 
         /**
@@ -221,7 +233,7 @@ export default {
                 method: "POST",
                 url: `${import.meta.env.VITE_API_TESTING_URL}/api/APITesting/CreateAccount`,
                 data: {
-                    user_name: me.user_name,
+                    user_name: me.userName,
                     password: me.password
                 }
             });
@@ -249,31 +261,10 @@ export default {
 
             me.showPopup = false;
             // Reset input fields on close
-            me.user_name = '';
+            me.userName = '';
             me.password = '';
-            me.account_id = '';
-            me.showPassword = false;
-        },
-
-        /**
-         * Hiển thị mật khẩu
-         */
-        togglePasswordVisibility() {
-            const me = this;
-
-            me.showPassword = !me.showPassword;
-
-            let iPass = document.getElementById('password');
-
-            if(iPass) {
-                if(me.showPassword) {
-                    iPass.setAttribute('type', 'text');
-                }
-                else {
-                    iPass.setAttribute('type', 'password');
-                }
-            }
-        },
+            me.accountId = '';
+        }
     }
 };
 </script>
