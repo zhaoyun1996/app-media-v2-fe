@@ -11,6 +11,7 @@
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Tên tài khoản</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Mật khẩu</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Ngày tạo</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Ngày sửa</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Chức năng</th>
                     <!-- Add more headers as needed -->
                 </tr>
@@ -23,9 +24,10 @@
                     <td class="px-6 py-4 whitespace-nowrap">{{ account.user_name }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">{{ account.password }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-center">{{ formatToString(account.created_date) }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center">{{ formatToString(account.modified_date) }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <button @click="showForm('edit', account)" class="text-blue-500 hover:text-blue-700">Edit</button>
-                        <button @click="deleteAccount(account)" class="text-red-500 hover:text-red-700 ml-2">Delete</button>
+                        <button @click="showForm('edit', account)" class="text-blue-500 hover:text-blue-700">Sửa</button>
+                        <button @click="deleteAccount(account)" class="text-red-500 hover:text-red-700 ml-2">Xóa</button>
                     </td>
                     <!-- Add more columns as needed -->
                 </tr>
@@ -43,7 +45,10 @@
                 </div>
                 <div class="mb-4">
                     <label for="password" class="block text-sm font-medium">Mật khẩu</label>
-                    <input v-model="password" autocomplete="off" type="password" id="password" name="password" class="mt-1 p-2 border rounded" required />
+                    <div class="relative">
+                        <input v-model="password" autocomplete="off" type="password" id="password" name="password" class="mt-1 p-2 border rounded" required />
+                        <button @click="togglePasswordVisibility" class="absolute top-1/2 right-2 transform -translate-y-1/2">👁️</button>
+                    </div>
                 </div>
                 <button type="submit" @click="handleAccount" class="bg-blue-500 text-white p-2 rounded">{{ mode == 'add' ? 'Thêm' : 'Sửa' }}</button>
                 <button @click="closePopup" type="button" class="ml-2 text-gray-500">Hủy</button>
@@ -52,7 +57,8 @@
     </div>
 
     <div class="text-center">
-        <button @click="showForm('add')" class="text-blue-500 hover:text-blue-700">Thêm tài khoản</button>
+        <button @click="showForm('add')" class="text-green-500 hover:text-green-700 mr-4">Thêm tài khoản</button>
+        <button @click="getAccounts" class="text-blue-500 hover:text-blue-700">Lấy lại danh sách tài khoản</button>
     </div>
 </template>
 
@@ -68,12 +74,13 @@ export default {
             account_id: '',
             user_name: '',
             password: '',
-            mode: 'add'
+            mode: 'add',
+            showPassword: false,
         }
     },
     created() {
         const me = this;
-        
+
         me.timeShowToast = 1500;
     },
     async mounted() {
@@ -93,7 +100,7 @@ export default {
                 url: `${import.meta.env.VITE_API_TESTING_URL}/api/APITesting`,
             });
 
-            if(res && res.data && res.data.success) {
+            if (res && res.data && res.data.success) {
                 me.accounts = res.data.data;
             }
         },
@@ -104,7 +111,7 @@ export default {
          */
         formatToString(datetimeString) {
             const date = new Date(datetimeString);
-  
+
             const day = date.getDate().toString().padStart(2, '0');
             const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
             const year = date.getFullYear();
@@ -129,7 +136,7 @@ export default {
                 data: account
             });
 
-            if(res && res.data && res.data.success) {
+            if (res && res.data && res.data.success) {
                 swal("Xóa tài khoản!", "Thành công!", "success", {
                     buttons: false,
                     timer: me.timeShowToast,
@@ -160,7 +167,7 @@ export default {
 
             me.closePopup();
 
-            if(res && res.data && res.data.success) {
+            if (res && res.data && res.data.success) {
                 swal("Sửa tài khoản!", "Thành công!", "success", {
                     buttons: false,
                     timer: me.timeShowToast,
@@ -190,7 +197,7 @@ export default {
 
             me.mode = mode;
 
-            if(account) {
+            if (account) {
                 me.account_id = account.account_id;
                 me.user_name = account.user_name;
                 me.password = account.password;
@@ -221,7 +228,7 @@ export default {
 
             me.closePopup();
 
-            if(res && res.data && res.data.success) {
+            if (res && res.data && res.data.success) {
                 swal("Thêm tài khoản!", "Thành công!", "success", {
                     buttons: false,
                     timer: me.timeShowToast,
@@ -245,6 +252,27 @@ export default {
             me.user_name = '';
             me.password = '';
             me.account_id = '';
+            me.showPassword = false;
+        },
+
+        /**
+         * Hiển thị mật khẩu
+         */
+        togglePasswordVisibility() {
+            const me = this;
+
+            me.showPassword = !me.showPassword;
+
+            let iPass = document.getElementById('password');
+
+            if(iPass) {
+                if(me.showPassword) {
+                    iPass.setAttribute('type', 'text');
+                }
+                else {
+                    iPass.setAttribute('type', 'password');
+                }
+            }
         },
     }
 };
@@ -257,4 +285,11 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 } */
+
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
 </style>
