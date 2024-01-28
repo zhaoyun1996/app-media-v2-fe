@@ -5,16 +5,16 @@
                 <div class="text-center px-6 py-3" style="font-size: 20px;">
                     Danh sách tài khoản
                 </div>
-                <div class="text-center float-right">
-                    <button @click="showForm" class="text-green-500 hover:text-green-700 mr-4">
-                        <i class="fas fa-plus-circle" @click="addNewItem"></i>
-                        Thêm
-                    </button>
-                    <button @click="getAccounts" class="text-blue-500 hover:text-blue-700">
-                        <i class="fas fa-sync-alt" @click="refreshData"></i>
-                        Tải lại
-                    </button>
-                </div>
+            </div>
+            <div class="action text-right">
+                <button @click="showForm" class="text-green-500 hover:text-green-700 mr-4">
+                    <i class="fas fa-plus-circle" @click="addNewItem"></i>
+                    Thêm
+                </button>
+                <button @click="getAccounts" class="text-blue-500 hover:text-blue-700">
+                    <i class="fas fa-sync-alt" @click="refreshData"></i>
+                    Tải lại
+                </button>
             </div>
             <table class="min-w-full divide-y divide-gray-200">
                 <!-- Table headers -->
@@ -52,7 +52,7 @@
                             <div class="h-6 bg-slate-700 rounded col-span-2 animate-pulse"></div>
                         </td>
                     </tr>
-                    <tr v-else v-for="(account, index) in accounts" :key="index" @click="changeMode(index)" :class="[account.state == enumState.edit ? 'edit' : 'view']">
+                    <tr v-else v-for="(account, index) in accounts" :key="index" @dblclick="changeMode(index)" :class="[account.state == enumState.edit ? 'edit' : 'view']">
                         <td class="px-6 py-4 whitespace-nowrap text-center">{{ index + 1 }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <input v-if="account.state == enumState.edit" v-model="account.user_name" />
@@ -95,7 +95,10 @@
                         </div>
                     </div>
                     <div>
-                        <button type="submit" @click="createAccount" class="bg-blue-500 text-white p-2 rounded float-right">Thêm</button>
+                        <button type="submit" @click="createAccount" :disabled="isCreating" :class="['bg-blue-500 text-white p-2 rounded float-right', {'opacity-50': isCreating}]">
+                            <i v-if="isCreating" class="fas fa-spinner fa-spin text-1xl mr-1"></i>
+                            Thêm
+                        </button>
                         <button @click="closePopup" type="button" class="p-2 text-gray-500 float-left">Hủy</button>
                     </div>
                 </form>
@@ -116,7 +119,8 @@ export default {
             userName: '',
             password: '',
             currentEdit: null,
-            isLoading: true
+            isLoading: true,
+            isCreating: false
         }
     },
     created() {
@@ -295,6 +299,8 @@ export default {
         async createAccount() {
             const me = this;
 
+            me.isCreating = true;
+
             const res = await axios({
                 method: "POST",
                 url: `${import.meta.env.VITE_API_TESTING_URL}/api/APITesting/CreateAccount`,
@@ -329,6 +335,7 @@ export default {
             // Reset input fields on close
             me.userName = '';
             me.password = '';
+            me.isCreating = false;
         }
     }
 };
@@ -337,8 +344,30 @@ export default {
 <style scoped>
 .group {
     position: absolute;
-    padding: 10px;
     width: calc(100% - 50px);
+}
+
+.table-container .title {
+    position: sticky;
+    top: 0;
+    background-color: #18191a;
+    padding: 10px 10px 0 10px;
+}
+
+.table-container .action {
+    position: sticky;
+    top: 64px;
+    background-color: #18191a;
+}
+
+.table-container table thead {
+    position: sticky;
+    top: 88.4px;
+    background-color: #18191a;
+}
+
+table {
+    padding: 0 10px 0 10px;
 }
 
 .edit input {
