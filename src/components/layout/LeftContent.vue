@@ -143,16 +143,22 @@ export default {
                     title: "Watch",
                 },
                 {
-                    name: "market-place",
-                    path: "/market-place",
-                    src: images.marketPlaceLeft,
-                    title: "Marketplace",
+                    name: "api-testing",
+                    path: "/api-testing",
+                    class: "material-common-sprite docs-material",
+                    title: "APITesting",
                 },
                 {
                     name: "group",
                     path: "/group",
                     src: images.groupLeft,
                     title: "Group",
+                },
+                {
+                    name: "market-place",
+                    path: "/market-place",
+                    src: images.marketPlaceLeft,
+                    title: "Marketplace",
                 },
             ],
             leftTempItems: [],
@@ -404,6 +410,20 @@ export default {
     height: 36px;
     background-repeat: no-repeat;
     display: inline-block;
+}
+
+.material-common-sprite {
+    background-image: url("@/assets/images/material-common-sprite.svg");
+    background-size: auto;
+    width: 30px;
+    height: 36px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-left: 6px;
+}
+
+.docs-material {
+    background-position: -7px -14458px;
 }
 
 .content-item.active .content-item-background {
