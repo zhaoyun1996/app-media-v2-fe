@@ -55,6 +55,11 @@ const router = createRouter({
             name: "api-testing",
             component: () => import("../views/APITesting.vue"),
         },
+        {
+            path: "/chat",
+            name: "chat",
+            component: () => import("../views/Chat.vue"),
+        },
     ],
 });
 
