@@ -17,6 +17,9 @@ import caretDown from "@/assets/images/caret-down.svg";
 import caretDownActive from "@/assets/images/caret-down-active.svg";
 import back from "@/assets/images/back.svg";
 import arrow from "@/assets/images/arrow.svg";
+import document from "@/assets/images/document.png";
+import chat from "@/assets/images/chat.png";
+import logoDark from "@/assets/images/logo-dark.png";
 
 const images = {
     logo: logo,
@@ -38,6 +41,9 @@ const images = {
     back: back,
     arrow: arrow,
     image: image,
+    document: document,
+    chat: chat,
+    logoDark: logoDark
 };
 
 export default images;

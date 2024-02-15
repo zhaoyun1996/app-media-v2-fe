@@ -143,9 +143,15 @@ export default {
                     title: "Watch",
                 },
                 {
+                    name: "chat",
+                    path: "/chat",
+                    src: images.chat,
+                    title: "Chat",
+                },
+                {
                     name: "api-testing",
                     path: "/api-testing",
-                    class: "material-common-sprite docs-material",
+                    src: images.document,
                     title: "APITesting",
                 },
                 {
@@ -410,20 +416,6 @@ export default {
     height: 36px;
     background-repeat: no-repeat;
     display: inline-block;
-}
-
-.material-common-sprite {
-    background-image: url("@/assets/images/material-common-sprite.svg");
-    background-size: auto;
-    width: 30px;
-    height: 36px;
-    background-repeat: no-repeat;
-    display: inline-block;
-    margin-left: 6px;
-}
-
-.docs-material {
-    background-position: -7px -14458px;
 }
 
 .content-item.active .content-item-background {
