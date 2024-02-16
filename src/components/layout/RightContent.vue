@@ -5,11 +5,7 @@
 </template>
 <script>
 export default {
-    name: "RightContent",
-    components: {
-        Image,
-        Audio,
-    },
+    name: "RightContent"
 };
 </script>
 <style lang="css" scoped>

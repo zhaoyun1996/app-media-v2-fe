@@ -16,7 +16,7 @@
                     v-model="searchValue"
                     @keyup.enter="search"
                     class="input-search"
-                    placeholder="Tìm kiếm trên App Media V2"
+                    placeholder="Tìm kiếm trên Zhaoyun"
                     @focus="isFocusInputSearch = !isFocusInputSearch"
                     @blur="isFocusInputSearch = !isFocusInputSearch"
                     autocomplete="off"
@@ -87,7 +87,7 @@
 <script>
 import images from "@/assets/images";
 export default {
-    name: "Header",
+    name: "TheNavbar",
 
     data() {
         return {
@@ -118,7 +118,7 @@ export default {
                 },
             ],
             srcSearch: images.search,
-            srcLogo: images.logo,
+            srcLogo: images.logoDark,
             srcCaretDown: images.caretDown,
             srcBack: images.back,
             srcDown: images.down,

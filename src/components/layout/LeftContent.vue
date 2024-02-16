@@ -104,7 +104,7 @@
             <div class="footer-content-option">
                 <a>Quyền riêng tư</a> · <a>Điều khoản</a> · <a>Quảng cáo</a> ·
                 <a>Lựa chọn quảng cáo</a> · <a>Cookie</a> · <a>Xem thêm</a> ·
-                App Media V2 © 2022
+                Zhaoyun © 2022
             </div>
         </div>
     </div>
@@ -234,8 +234,6 @@ export default {
          * Hiển thị content mặc định
          */
         viewContentDefault(items, tempItems) {
-            const me = this;
-
             tempItems.splice(0, tempItems.length);
             tempItems.push(...items);
 
@@ -254,6 +252,14 @@ export default {
 
     mounted() {
         const me = this;
+
+        let leftItem = me.leftItems.find(
+            (item) => item.path == me.$route.path
+        );
+
+        if (leftItem) {
+            me.itemActive = leftItem.name;
+        }
 
         // Fake content
         // for (let index = 0; index < 10; index++) {

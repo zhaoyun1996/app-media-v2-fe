@@ -13,7 +13,9 @@
 
         <div id="current-user">
             <h2>User</h2>
-            <input type="text" v-model="user" disabled />
+            ID: <span> {{ id }} </span>
+            <br>
+            Name: <span> {{ user }} </span>
         </div>
 
         <div id="chat">
@@ -48,7 +50,8 @@ export default {
             newMessage: "",
             state: false,
             users: [],
-            user: `user-${Date.now()}`
+            user: `user-${Date.now()}`,
+            id: null
         };
     },
     mounted() {
@@ -58,6 +61,7 @@ export default {
         socket.on("connect", () => {
             if(socket && socket.connected) {
                 this.state = socket.connected;
+                this.id = socket.id;
                 socket.emit('add-user', this.user);
             }
         });
@@ -65,7 +69,6 @@ export default {
         socket.on("disconnect", () => {
             if(socket && !socket.connected) {
                 this.state = socket.connected;
-                socket.emit('disconnect', this.user);
             }
         });
 
@@ -86,7 +89,7 @@ export default {
 
         // Init user list. Updates user list when the client init
         socket.on('update-users', (users) => {
-            this.users = users;
+            this.users = users.filter(user => user.id != socket.id);
         });
     },
     methods: {
@@ -98,21 +101,26 @@ export default {
         },
 
         connect() {
-            socket.connect();
+            if(socket) {
+                socket.connect();
+            }
         },
 
         disconnect() {
-            socket.disconnect();
+            if(socket) {
+                socket.disconnect();
+            }
         }
     },
     beforeUnmount() {
-        socket.disconnect();
+        this.disconnect();
     }
 };
 </script>
 <style lang="css" scoped>
     input {
         color: #000;
+        width: 200px;
     }
 
     #list-user, #current-user, #chat, #status {
