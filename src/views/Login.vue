@@ -18,7 +18,7 @@
                                 User name
                             </label>
                             <div class="flex mt-1">
-                                <input v-model="userName" id="username" name="email" type="username" autocomplete="off" required
+                                <input v-model="userName" autocomplete="off" required
                                     class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                                 Password
                             </label>
                             <div class="flex mt-1">
-                                <input v-model="password" id="password" name="password" type="password" autocomplete="off" required
+                                <input v-model="password" type="password" autocomplete="off" required
                                     class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
                         </div>
@@ -61,6 +61,7 @@
             </div>
         </div>
     </div>
+    <Loading v-if="loading" />
 </template>
   
 <script>
@@ -68,8 +69,12 @@ import images from "@/assets/images";
 import router from "@/router";
 import axios from "axios";
 import swal from "sweetalert";
+import Loading from "@/components/Loading.vue";
 export default {
     name: "Login",
+    components: {
+        Loading
+    },
     data() {
         return {
             loading: false,
@@ -79,7 +84,7 @@ export default {
         }
     },
     created() {
-        this.srcLogo = images.logoDark;
+        this.srcLogo = images.logoWhite;
     },
     methods: {
         async login() {

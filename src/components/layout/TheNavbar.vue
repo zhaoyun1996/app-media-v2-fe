@@ -16,7 +16,7 @@
                     v-model="searchValue"
                     @keyup.enter="search"
                     class="input-search"
-                    placeholder="Tìm kiếm trên Zhaoyun"
+                    placeholder="Tìm kiếm"
                     @focus="isFocusInputSearch = !isFocusInputSearch"
                     @blur="isFocusInputSearch = !isFocusInputSearch"
                     autocomplete="off"
@@ -118,7 +118,7 @@ export default {
                 },
             ],
             srcSearch: images.search,
-            srcLogo: images.logoDark,
+            srcLogo: images.logoWhite,
             srcCaretDown: images.caretDown,
             srcBack: images.back,
             srcDown: images.down,

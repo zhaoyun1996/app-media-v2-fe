@@ -20,6 +20,7 @@ import arrow from "@/assets/images/arrow.svg";
 import document from "@/assets/images/document.png";
 import chat from "@/assets/images/chat.png";
 import logoDark from "@/assets/images/logo-dark.png";
+import logoWhite from "@/assets/images/logo-white.png";
 
 const images = {
     logo: logo,
@@ -43,7 +44,8 @@ const images = {
     image: image,
     document: document,
     chat: chat,
-    logoDark: logoDark
+    logoDark: logoDark,
+    logoWhite: logoWhite
 };
 
 export default images;
