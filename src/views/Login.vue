@@ -18,7 +18,7 @@
                                 User name
                             </label>
                             <div class="flex mt-1">
-                                <input v-model="userName" autocomplete="off" required
+                                <input ref="refUserName" v-model="userName" autocomplete="off" required
                                     class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
                         </div>
@@ -84,7 +84,13 @@ export default {
         }
     },
     created() {
-        this.srcLogo = images.logoWhite;
+        const me = this;
+
+        me.srcLogo = images.logoWhite;
+
+        me.$nextTick(() => {
+            me.$refs.refUserName.focus();
+        });
     },
     methods: {
         async login() {

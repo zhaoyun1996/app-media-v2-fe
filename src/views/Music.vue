@@ -192,8 +192,6 @@ export default {
                     import.meta.env.VITE_API_URL
                 }/getDetailPlaylist?id=${id}`,
             });
-
-            console.log(res);
         },
 
         /**
@@ -207,8 +205,6 @@ export default {
                 method: "GET",
                 url: `${import.meta.env.VITE_API_URL}/getHome?id=${id}`,
             });
-
-            console.log(res);
         },
 
         /**
@@ -226,8 +222,6 @@ export default {
             if (res && res.data && res.data.msg == "Success" && res.data.data) {
                 me.songs = res.data.data.songs;
             }
-
-            console.log(res);
         },
 
         /**
@@ -288,8 +282,6 @@ export default {
                 }`,
             });
             // music = document.getElementById("music");
-
-            console.log(res);
         },
 
         /**
@@ -402,8 +394,6 @@ export default {
                 url: `${import.meta.env.VITE_API_URL}/getListMV`,
             });
             // music = document.getElementById("music");
-
-            console.log(res);
         },
 
         /**
@@ -418,8 +408,6 @@ export default {
                 url: `${import.meta.env.VITE_API_URL}/getCategoryMV`,
             });
             // music = document.getElementById("music");
-
-            console.log(res);
         },
 
         /**
@@ -434,8 +422,6 @@ export default {
                 url: `${import.meta.env.VITE_API_URL}/getVideo`,
             });
             // music = document.getElementById("music");
-
-            console.log(res);
         },
 
         /**

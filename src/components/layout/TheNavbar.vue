@@ -77,17 +77,36 @@
                     </div>
                 </router-link>
                 <div class="menu">
-                    <img :src="srcCaretDown" />
-                    <div class="menu-background"></div>
+                    <dropdown placement="right">
+                        <template v-slot:button>
+                            <img :src="srcCaretDown" />
+                        </template>
+                        
+                        <template v-slot:content>
+                            <div class="menu-background">
+                                <span class="flex items-center" @click="changeCategory('profile')">Profile</span>
+                                <span class="flex items-center">Settings</span>
+                                <hr />
+                                <span class="flex items-center" @click="logout">Logout</span>
+                            </div>
+                        </template>
+                    </dropdown>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
 <script>
 import images from "@/assets/images";
+import Dropdown from "@/components/Dropdown.vue";
+import router from "@/router";
 export default {
     name: "TheNavbar",
+
+    components: {
+        Dropdown
+    },
 
     data() {
         return {
@@ -144,6 +163,11 @@ export default {
 
             me.emitter.emit("search", me.searchValue);
         },
+
+        logout() {
+            sessionStorage.removeItem("UserLogin");
+            router.push('/login');
+        }
     },
 
     watch: {
@@ -164,6 +188,7 @@ export default {
     },
 };
 </script>
+
 <style lang="css" scoped>
 #header {
     height: 6%;
@@ -348,11 +373,26 @@ export default {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.menu:hover .menu-background {
+.menu .menu-background span {
+    border-radius: 4px;
+    height: 30px;
+    margin: 4px;
+    padding-left: 6px;
+}
+
+.menu .menu-background span:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+hr {
+    width: 95%;
+    margin-left: 4px;
+}
+
+.menu-background {
     position: absolute;
     background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    height: 36px;
+    border-radius: 4px;
     left: 0;
     width: 100%;
 }

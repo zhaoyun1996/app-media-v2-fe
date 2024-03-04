@@ -110,7 +110,6 @@ export default {
                     });
                     if (response.data) {
                         type ? me.urlAvatar1 = response.data.url : me.urlAvatar2 = response.data.url;
-                        console.log(me.urlAvatar1)
                     }
                 } catch (error) {
                     swal("Tải ảnh lên!", "Thất bại!", "error", {
