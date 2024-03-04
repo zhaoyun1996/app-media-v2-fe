@@ -107,21 +107,42 @@ export default {
                 }
             });
 
-            if (res && res.data && res.data.success) {
-                await swal("Đăng nhập!", "Thành công!", "success", {
+            if (res && res.data) {
+                if(res.data.success) {
+                    await swal("Đăng nhập!", "Thành công!", "success", {
+                        buttons: false,
+                        timer: 1500,
+                    });
+
+                    sessionStorage.setItem("UserLogin", JSON.stringify({
+                        user_name: me.userName,
+                        password: me.password
+                    }));
+
+                    router.push('/');
+                }
+                else if(res.data.code == 2) {
+                    await swal("Đăng nhập!", res.data.systemMessage, "error", {
+                        buttons: false,
+                        timer: 1500,
+                    });
+                }
+                else {
+                    await swal("Đăng nhập!", "Thất bại!", "error", {
+                        buttons: false,
+                        timer: 1500,
+                    });
+                }
+
+            }
+            else {
+                await swal("Đăng nhập!", "Thất bại!", "error", {
                     buttons: false,
                     timer: 1500,
                 });
-
-                sessionStorage.setItem("UserLogin", JSON.stringify({
-                    user_name: me.userName,
-                    password: me.password
-                }));
-
-                router.push('/');
-
-                me.loading = false;
             }
+
+            me.loading = false;
         }
     }
 }
