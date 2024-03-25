@@ -80,8 +80,6 @@ router.beforeEach((from, to, next) => {
     let loginInfo = sessionStorage.getItem("LoginInfo"),
         isTokenExprired = true;
 
-        debugger
-
     if(loginInfo) {
         let objLoginInfo = JSON.parse(loginInfo);
 
