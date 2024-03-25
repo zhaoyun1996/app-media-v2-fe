@@ -53,10 +53,13 @@ export default {
             }
 
             var targetContent = document.getElementById('content');
-            var clickedContent = targetContent.contains(e.target);
-    
-            if (clickedContent) {
-                this.open = false;
+
+            if(targetContent) {
+                var clickedContent = targetContent.contains(e.target);
+
+                if (clickedContent) {
+                    this.open = false;
+                }
             }
         };
 

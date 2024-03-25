@@ -100,7 +100,7 @@ export default {
 
             const res = await axios({
                 method: "POST",
-                url: `${import.meta.env.VITE_API_TESTING_URL}/api/Account/Login`,
+                url: `${import.meta.env.VITE_API_TESTING_URL}/api/Auth/Login`,
                 data: {
                     user_name: me.userName,
                     password: me.password
@@ -114,10 +114,7 @@ export default {
                         timer: 1500,
                     });
 
-                    sessionStorage.setItem("UserLogin", JSON.stringify({
-                        user_name: me.userName,
-                        password: me.password
-                    }));
+                    sessionStorage.setItem("LoginInfo", JSON.stringify(res.data.data));
 
                     router.push('/');
                 }

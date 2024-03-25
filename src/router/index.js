@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import session from "@/common/session";
+import moment from 'moment';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -76,8 +77,29 @@ const router = createRouter({
 router.beforeEach((from, to, next) => {
     session.initSession();
 
-    let userLogin = sessionStorage.getItem("UserLogin");
-    if(!userLogin && from.name != 'login') {
+    let loginInfo = sessionStorage.getItem("LoginInfo"),
+        isTokenExprired = true;
+
+        debugger
+
+    if(loginInfo) {
+        let objLoginInfo = JSON.parse(loginInfo);
+
+        if(objLoginInfo && objLoginInfo.AccessToken && objLoginInfo.AccessToken.tokenExprired) {
+            let tokenExprired = objLoginInfo.AccessToken.tokenExprired;
+            
+            if(tokenExprired) {
+                const timeNow = moment(new Date());
+                const timeExprired = moment(new Date(tokenExprired));
+                
+                if(timeExprired.isBefore(timeNow)) {
+                    isTokenExprired = false;
+                }
+            }
+        }
+    }
+
+    if(!isTokenExprired && from.name != 'login') {
         return next({
             name: 'login'
         });

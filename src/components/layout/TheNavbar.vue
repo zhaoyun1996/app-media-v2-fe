@@ -158,14 +158,20 @@ export default {
             me.categoryItemActive = type;
         },
 
+        /**
+         * Tìm kiếm
+         */
         search() {
             const me = this;
 
             me.emitter.emit("search", me.searchValue);
         },
 
+        /**
+         * Đăng xuất
+         */
         logout() {
-            sessionStorage.removeItem("UserLogin");
+            sessionStorage.removeItem("LoginInfo");
             router.push('/login');
         }
     },
