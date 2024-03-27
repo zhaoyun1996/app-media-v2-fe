@@ -344,6 +344,7 @@ export default {
 <style scoped>
 .group {
     position: absolute;
+    margin: 0 25px;
     width: calc(100% - 50px);
 }
 

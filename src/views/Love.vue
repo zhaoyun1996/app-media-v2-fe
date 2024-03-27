@@ -50,7 +50,8 @@ export default {
         return {
             fromDate: new Date("2023/02/14"),
             urlAvatar1: null,
-            urlAvatar2: null
+            urlAvatar2: null,
+            timeShowToast: 1500
         };
     },
 
@@ -109,12 +110,19 @@ export default {
                         },
                     });
                     if (response.data) {
-                        type ? me.urlAvatar1 = response.data.url : me.urlAvatar2 = response.data.url;
+                        swal("Tải ảnh lên!", "Thành công!", "success", {
+                            buttons: false,
+                            timer: me.timeShowToast,
+                        });
+
+                        setTimeout(async () => {
+                            type ? me.urlAvatar1 = response.data.url : me.urlAvatar2 = response.data.url;
+                        }, me.timeShowToast);
                     }
                 } catch (error) {
                     swal("Tải ảnh lên!", "Thất bại!", "error", {
                         buttons: false,
-                        timer: 1500,
+                        timer: me.timeShowToast,
                     });
                 }
             }

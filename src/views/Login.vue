@@ -118,7 +118,7 @@ export default {
 
                     router.push('/');
                 }
-                else if(res.data.code == 2) {
+                else if(res.data.code == 1 || res.data.code == 2) {
                     await swal("Đăng nhập!", res.data.systemMessage, "error", {
                         buttons: false,
                         timer: 1500,

@@ -76,22 +76,22 @@
                         <div class="user-background"></div>
                     </div>
                 </router-link>
-                <div class="menu">
-                    <dropdown placement="right">
-                        <template v-slot:button>
+                <dropdown placement="right" classList="dropdown-action-extend" @open="openActionExtend">
+                    <template v-slot:button>
+                        <div :class="['menu', { 'active': isOpenActionExtend }]">
                             <img :src="srcCaretDown" />
-                        </template>
-                        
-                        <template v-slot:content>
-                            <div class="menu-background">
-                                <span class="flex items-center" @click="changeCategory('profile')">Profile</span>
-                                <span class="flex items-center">Settings</span>
-                                <hr />
-                                <span class="flex items-center" @click="logout">Logout</span>
-                            </div>
-                        </template>
-                    </dropdown>
-                </div>
+                        </div>
+                    </template>
+                    
+                    <template v-slot:content>
+                        <div class="menu-background">
+                            <span class="flex items-center" @click="changeCategory('profile')">Profile</span>
+                            <span class="flex items-center">Settings</span>
+                            <hr />
+                            <span class="flex items-center" @click="logout">Logout</span>
+                        </div>
+                    </template>
+                </dropdown>
             </div>
         </div>
     </div>
@@ -145,6 +145,7 @@ export default {
             categoryItemActive: "home",
             isFocusInputSearch: false,
             searchValue: "",
+            isOpenActionExtend: false
         };
     },
 
@@ -173,6 +174,10 @@ export default {
         logout() {
             sessionStorage.removeItem("LoginInfo");
             router.push('/login');
+        },
+
+        openActionExtend(isOpen) {
+            this.isOpenActionExtend = isOpen;
         }
     },
 
@@ -379,15 +384,28 @@ export default {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.menu .menu-background span {
+.dropdown-action-extend .menu-background span {
     border-radius: 4px;
     height: 30px;
     margin: 4px;
     padding-left: 6px;
+    cursor: pointer;
 }
 
-.menu .menu-background span:hover {
+.dropdown-action-extend .menu-background span:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-action-extend .menu.active {
+    background-color: rgba(29, 133, 252, 0.2);
+}
+
+.dropdown-action-extend .menu:hover {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-action-extend .menu.active:hover {
+    background-color: rgba(29, 133, 252, 0.3);
 }
 
 hr {

@@ -197,10 +197,10 @@ export default {
                         },
                     });
                     if (response.data.url) {
-                        // swal("Tải ảnh lên!", "Thành công!", "success", {
-                        //     buttons: false,
-                        //     timer: me.timeShowToast,
-                        // });
+                        swal("Tải ảnh lên!", "Thành công!", "success", {
+                            buttons: false,
+                            timer: me.timeShowToast,
+                        });
 
                         setTimeout(async () => {
                             await me.fetchImages();
@@ -294,7 +294,16 @@ export default {
                         }
                     }
                 );
-                await me.fetchImages();
+                
+                swal("Xóa ảnh lên!", "Thành công!", "success", {
+                    buttons: false,
+                    timer: me.timeShowToast,
+                });
+
+                setTimeout(async () => {
+                    await me.fetchImages();
+                }, me.timeShowToast);
+
                 me.unmask();
             } catch (error) {
                 me.unmask();

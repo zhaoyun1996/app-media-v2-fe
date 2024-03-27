@@ -1,5 +1,5 @@
 <template>
-    <div id="dropdown" class="relative">
+    <div id="dropdown" :class="[classList, 'relative']">
         <button class="z-10 relative flex items-center focus:outline-none select-none" @click="open = !open">
             <slot name="button"></slot>
         </button>
@@ -35,12 +35,18 @@ export default {
             default: "right",
             validator: (value) => ["right", "left"].indexOf(value) !== -1,
         },
+
+        classList: {
+            type: String
+        }
     },
     
     mounted() {
         this.onEscape = (e) => {
             if (e.key === "Esc" || e.key === "Escape") {
                 this.open = false;
+
+                this.$emit("open", this.open);
             }
         };
 
@@ -61,6 +67,8 @@ export default {
                     this.open = false;
                 }
             }
+
+            this.$emit("open", this.open);
         };
 
         document.addEventListener("keydown", this.onEscape);
