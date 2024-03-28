@@ -101,6 +101,7 @@
 import images from "@/assets/images";
 import Dropdown from "@/components/Dropdown.vue";
 import router from "@/router";
+import axios from "axios";
 export default {
     name: "TheNavbar",
 
@@ -171,7 +172,39 @@ export default {
         /**
          * Đăng xuất
          */
-        logout() {
+        async logout() {
+            const me = this;
+
+            var session = sessionStorage.getItem("LoginInfo");
+
+            if(session) {
+                let objLoginInfo = JSON.parse(loginInfo);
+
+                if(objLoginInfo && objLoginInfo.AccessToken) {
+                    const res = await axios({
+                        method: "POST",
+                        url: `${import.meta.env.VITE_API_TESTING_URL}/api/Auth/Logout`,
+                        headers: {
+                            'Authorization': `Bearer ${objLoginInfo.AccessToken.token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+        
+                    if (res && res.data) {
+                        debugger
+                        me.afterLogout();
+                    }
+                }
+                else {
+                    me.afterLogout();
+                }
+            }
+            else {
+                me.afterLogout();
+            }
+        },
+
+        afterLogout() {
             sessionStorage.removeItem("LoginInfo");
             router.push('/login');
         },
