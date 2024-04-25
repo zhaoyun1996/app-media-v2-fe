@@ -1,6 +1,6 @@
 <template lang="">
     <div id="api-testing">
-        <div class="lecture-overview-item" v-if="false">
+        <div class="lecture-overview-item" v-if="true">
             <div class="lecture-heading" id="content">
                 <h3 class="widget-title pb-2 text-uppercase" style="font-size: 20pt;">Nội dung bài học</h3>
                 <div id="sheet">
@@ -110,12 +110,12 @@
                         <br />
                         <strong>Ví dụ về EndPoint API:</strong><br />
                         <br />
-                        <strong>- API để create user</strong> thì cần truy cập link này <strong>https://api.anhtester.com/api/user</strong> và với phương thức là <strong>POST</strong><br />
+                        <strong>- API để create user</strong> thì cần truy cập link này <strong>https://api.apitesting.com/api/user</strong> và với phương thức là <strong>POST</strong><br />
                         Xong chưa đủ, cần truyền body vào là thông tin của user cần tạo nữa, dạng <strong>JSON</strong> chẳng hạn
                     </p>
                     <div class="code-toolbar">
                         <pre class="line-numbers language-javascript" tabindex="0"><code class="language-javascript"><span class="token punctuation">{</span>
-        <span class="token string-property property">"username"</span><span class="token operator">:</span> <span class="token string">"anhtester"</span><span class="token punctuation">,</span>
+        <span class="token string-property property">"username"</span><span class="token operator">:</span> <span class="token string">"apitesting"</span><span class="token punctuation">,</span>
         <span class="token string-property property">"firstName"</span><span class="token operator">:</span> <span class="token string">"Anh"</span><span class="token punctuation">,</span>
         <span class="token string-property property">"lastName"</span><span class="token operator">:</span> <span class="token string">"Tester"</span><span class="token punctuation">,</span>
         <span class="token string-property property">"email"</span><span class="token operator">:</span> <span class="token string">"thaian.it15@gmail.com"</span><span class="token punctuation">,</span>
@@ -131,16 +131,16 @@
                         </div>
                     </div>
                     <p>
-                        <strong>- API để get user</strong> thì cần truy cập link này <strong>https://api.anhtester.com/api/user</strong> nhưng với phương thức là <strong>GET</strong><br />
+                        <strong>- API để get user</strong> thì cần truy cập link này <strong>https://api.apitesting.com/api/user</strong> nhưng với phương thức là <strong>GET</strong><br />
                         Xong sau đó cần truyền param là username của user cần get, dạng <strong>Param URL </strong>chẳng hạn<br />
-                        <strong>https://api.anhtester.com/api/user?username=anhtester</strong><br />
+                        <strong>https://api.apitesting.com/api/user?username=apitesting</strong><br />
                         <br />
                         Đấy, thì như trên đó là các EndPoint đó. Những điểm cuối này bao gồm URL máy chủ, phương thức và những thông số kỹ thuật cụ thể khác, từ đây thông tin được gửi đi và tiếp nhận giữa các hệ thống.<br />
                         <br />
                         <span style="color: #ff0000;">
                             <em><strong>Xem thêm tài liệu API của Anh Tester</strong></em>
                         </span>
-                        : <a href="https://api.anhtester.com/" target="_blank" rel="noopener">https://api.anhtester.com/</a><br />
+                        : <a href="https://api.apitesting.com/" target="_blank" rel="noopener">https://api.apitesting.com/</a><br />
                         <br />
                         <strong>Điểm cuối API rất quan trọng đối với doanh nghiệp vì 2 lý do chính:&nbsp;</strong>
                     </p>
@@ -327,7 +327,7 @@
             </div>
         </div>
 
-        <div class="lecture-overview-item" v-if="false">
+        <div class="lecture-overview-item" v-if="true">
             <div class="lecture-heading" id="content">
                 <h3 class="widget-title pb-2 text-uppercase" style="font-size: 20pt;">Nội dung bài học</h3>
                 <div id="sheet">
@@ -752,7 +752,7 @@ Reason-Phrase: Not Found<span aria-hidden="true" class="line-numbers-rows"><span
             </div>
         </div>
 
-        <div class="lecture-overview-item" v-if="false">
+        <div class="lecture-overview-item" v-if="true">
             <div class="lecture-heading" id="content">
                 <h3 class="widget-title pb-2 text-uppercase" style="font-size: 20pt;">Nội dung bài học</h3>
                 <div id="sheet">
@@ -913,7 +913,7 @@ Reason-Phrase: Not Found<span aria-hidden="true" class="line-numbers-rows"><span
             </div>
         </div>
 
-        <div class="lecture-overview-item" v-if="false">
+        <div class="lecture-overview-item" v-if="true">
             <div class="lecture-heading" id="content">
                 <h3 class="widget-title pb-2 text-uppercase" style="font-size: 20pt;">Nội dung bài học</h3>
                 <div id="sheet">
@@ -959,7 +959,7 @@ Reason-Phrase: Not Found<span aria-hidden="true" class="line-numbers-rows"><span
                         <strong>Params</strong> là để truyền <strong>tham số</strong> vào trong API nào có yêu cầu cụ thể.<br />
                         <br />
                         <strong>Ví dụ API get user by username</strong>:
-                        <a href="https://api.anhtester.com/swagger/index.html#/User%20Management/getUserByName" target="_blank" rel="noopener">https://api.anhtester.com/swagger/index.html#/User%20Management/getUserByName</a><br />
+                        <a href="https://api.apitesting.com/swagger/index.html#/User%20Management/getUserByName" target="_blank" rel="noopener">https://api.apitesting.com/swagger/index.html#/User%20Management/getUserByName</a><br />
                         <br />
                         <a href="/src/assets/images/image-api-testing/api_can_truyen_params.jpg" data-fancybox="images" data-width="1200">
                             <img src="@/assets/images/image-api-testing/api_can_truyen_params.jpg" alt="" width="2236" height="1187" />
@@ -973,9 +973,9 @@ Reason-Phrase: Not Found<span aria-hidden="true" class="line-numbers-rows"><span
                         Tại đây có 3 cột là <strong>Key, Value </strong>và<strong> Description</strong>. Thì nhìn chắc các bạn biết rồi, key là tên tham số còn value là giá trị tương ứng của tham số đó. Cái cột Description có thể ghi hoặc không,
                         mục đích diễn tả thêm vậy thôi. Cái chính là Key và Value.<br />
                         <br />
-                        Ví dụ trên thì An truyền vào tham số tên "<strong>username</strong>" và giá trị là "<strong>anhtester</strong>".<br />
+                        Ví dụ trên thì An truyền vào tham số tên "<strong>username</strong>" và giá trị là "<strong>apitesting</strong>".<br />
                         <br />
-                        Ngay lập tức postman nó tự điền lên trên ô URL là <strong><code>?username=anhtester</code></strong> giống như trên giao diện UI website thì thanh URL cũng hiện dạng y hệt vậy.<br />
+                        Ngay lập tức postman nó tự điền lên trên ô URL là <strong><code>?username=apitesting</code></strong> giống như trên giao diện UI website thì thanh URL cũng hiện dạng y hệt vậy.<br />
                         <br />
                         Nếu có nhiều tham số thì các bạn cứ điền thêm dòng vào và nó tự sinh ra dòng tiếp theo cho mình điền.<br />
                         <br />
